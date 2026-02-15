@@ -1,0 +1,48 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.monaco-editor,
+.overflow-guard {
+  border-radius: 8px;
+  border: 1px solid var(--tertiary-highlight);
+}
+
+:root {
+  /* Surfaces  */
+  --primary-surface: #020202;
+  --primary-surface-accent: #fff;
+  --secondary-surface: #171717;
+  --tertiary-surface: #272727;
+  --tertiary-highlight: #444444;
+  --accent-surface: #57b45e;
+  --danger-surface: #ff4141;
+
+  /* Text */
+  --display-font: "Inter";
+  --primary-text: #fff;
+  --secondary-text: #fff;
+}
+
+@theme {
+  /* Font */
+  --font-sans: var("--display-font");
+
+  /* Surfaces */
+  --color-primary-surface: var(--primary-surface);
+  --color-primary-surface-accent: var(--primary-surface-accent);
+  --color-secondary-surface: var(--secondary-surface);
+  --color-tertiary-surface: var(--tertiary-surface);
+  --color-tertiary-highlight: var(--tertiary-highlight);
+  --color-accent-surface: var(--accent-surface);
+  --color-danger-surface: var(--danger-surface);
+
+  /* Text */
+  --color-primary-text: var(--primary-text);
+  --color-secondary-text: var(--secondary-text);
+}
