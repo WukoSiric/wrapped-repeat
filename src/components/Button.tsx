@@ -13,7 +13,7 @@ export const Button = ({
 }: React.PropsWithChildren<ButtonProps>) => {
   return (
     <HeadlessUIButton
-      className="group w-fit cursor-pointer rounded-xl border border-primary-surface-accent bg-primary-surface px-4 py-1 text-xl font-medium text-primary-text transition-all ease-in-out select-none hover:border-accent-surface"
+      className="group w-fit cursor-pointer hover:bg-primary-accent-hover rounded-lg bg-primary-accent px-4 py-1 text-l font-medium text-primary-text transition-all ease-in-out select-none "
       {...props}
     >
       <div className="flex items-center gap-2">

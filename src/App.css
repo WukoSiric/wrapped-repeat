@@ -7,6 +7,8 @@
   box-sizing: border-box;
 }
 
+
+/* Code Editor CSS */
 .monaco-editor,
 .overflow-guard {
   border-radius: 8px;
@@ -15,34 +17,47 @@
 
 :root {
   /* Surfaces  */
-  --primary-surface: #020202;
-  --primary-surface-accent: #fff;
-  --secondary-surface: #171717;
-  --tertiary-surface: #272727;
-  --tertiary-highlight: #444444;
-  --accent-surface: #57b45e;
-  --danger-surface: #ff4141;
+  --background: #0e0e0e;
+  --primary-surface: #161616;;
+  --secondary-surface: #282828;
+  --primary-surface-highlight: #3f3f3f;
+
+  --primary-accent: #008764;
+  --secondary-accent: #5da690;
+
+  --primary-accent-hover: #00a97c;
+  --secondary-accent-hover: #75ccb2;
+
+  /* Brand */ 
+  --brand: #005E46;
 
   /* Text */
   --display-font: "Inter";
-  --primary-text: #fff;
-  --secondary-text: #fff;
+  --primary-surface-text: #fff;
 }
 
 @theme {
   /* Font */
   --font-sans: var("--display-font");
 
+  /* Background */
+  --color-background: var(--background);
+
   /* Surfaces */
   --color-primary-surface: var(--primary-surface);
-  --color-primary-surface-accent: var(--primary-surface-accent);
   --color-secondary-surface: var(--secondary-surface);
-  --color-tertiary-surface: var(--tertiary-surface);
-  --color-tertiary-highlight: var(--tertiary-highlight);
-  --color-accent-surface: var(--accent-surface);
-  --color-danger-surface: var(--danger-surface);
+  --color-primary-surface-highlight: var(--primary-surface-highlight);
+  
+  --color-primary-accent: var(--primary-accent);
+  --color-primary-accent-hover: var(--primary-accent-hover);
+  --color-secondary-accent: var(--secondary-accent);
+  --color-secondary-accent-hover: var(--secondary-accent-hover);
+
+  /* Brand */
+  --color-brand: var(--brand);
+
+
 
   /* Text */
-  --color-primary-text: var(--primary-text);
-  --color-secondary-text: var(--secondary-text);
+  --color-primary-text: var(--primary-surface-text);
 }

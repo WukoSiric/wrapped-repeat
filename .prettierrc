@@ -1,4 +1,5 @@
-{ 
-  "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindStylesheet": "./src/App.css"
+{
+  "tabWidth": 2,
+  "useTabs": false
+  
 }
