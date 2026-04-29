@@ -8,38 +8,38 @@ import { Button } from "./components/Button";
 
 const Card = ({ children }: PropsWithChildren) => {
   return (
-    <div className="h-fit w-full rounded-xl bg-primary-surface p-8 drop-shadow-lg">
+    <div className="h-fit w-full rounded-xl bg-primary-surface p-8 border border-primary-surface-highlight">
       {children}
     </div>
   );
 };
 
-const Sidebar = () => {
-  return <></>;
-};
-
-const NavigationBar = () => {
-  return <></>;
-};
-
-const StreamingHistoryData = () => {
+export const Sidebar = () => {
   return (
-    <Card>
-      <Heading variant="4XL">Streaming History Data</Heading>
-    </Card>
+    <>
+      <div className="h-screen w-1/5 bg-primary-surface border-r border-primary-surface-highlight flex-row">
+        <div className="w-full flex flex-col gap-2 p-8">
+          <Button leftIcon="variable_box">Global Variables</Button>
+          <Button leftIcon="code_json">Streaming Data</Button>
+        </div>
+      </div>
+    </>
   );
+};
+
+export const NavigationBar = () => {
+  return <></>;
 };
 
 const App = () => {
   return (
-    <>
+    <div className="h-screen w-screen">
       <SimpleNavbar />
-      <div className="flex h-screen w-screen justify-center bg-background pt-14">
-        {/* Container */}
-        <div className="flex w-full max-w-1/2 flex-col gap-10 py-10">
-          <Button>My button </Button>
-
-          <StreamingHistoryData />
+      <div className="flex h-full flex-row col-span-2">
+        <Sidebar />
+        {/* Content */}
+        <div className="bg-background w-full h-full p-16">
+          {/* Container */}
           <Card>
             <Heading variant="4XL">Track of the Year</Heading>
             <Heading variant="XL">Description</Heading>
@@ -75,7 +75,7 @@ const App = () => {
           </Card>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

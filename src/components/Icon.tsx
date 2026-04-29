@@ -11,7 +11,7 @@ export const Icon = ({
 }: IconProps) => {
   return (
     <span
-      className={`material-icons ${defaultStylingOverrides !== undefined ? defaultStylingOverrides : "text-9xl text-primary-surface-accent"} select-none ${className}`}
+      className={`material-icons ${defaultStylingOverrides !== undefined ? defaultStylingOverrides : "text-9xl text-primary-surface-accent w-full"} select-none ${className}`}
       {...rest}
     >
       {name}

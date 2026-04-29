@@ -13,18 +13,18 @@ export const Button = ({
 }: React.PropsWithChildren<ButtonProps>) => {
   return (
     <HeadlessUIButton
-      className="group w-fit cursor-pointer hover:bg-primary-accent-hover rounded-lg bg-primary-accent px-4 py-1 text-l font-medium text-primary-text transition-all ease-in-out select-none "
+      className="w-full cursor-pointer hover:bg-primary-accent-hover rounded-lg bg-primary-accent px-4 py-1 text-l font-medium text-primary-text transition-all ease-in-out select-none "
       {...props}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex flex-col items-center gap-2">
         {leftIcon && (
           <Icon
             name={leftIcon}
-            className="group-hover:text-accent-surface"
             defaultStylingOverrides=""
+            className="w-full"
           />
         )}
-        <span className="group-hover:text-accent-surface">{children}</span>
+        <span className="w-full">{children}</span>
       </div>
     </HeadlessUIButton>
   );
