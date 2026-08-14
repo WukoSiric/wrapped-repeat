@@ -5,6 +5,7 @@ import { Editor } from "@monaco-editor/react";
 import SimpleNavbar from "./components/SimpleNavbar";
 import Heading from "./components/Heading";
 import { Button } from "./components/Button";
+import { Divider } from "./components/Divider";
 
 const Card = ({ children }: PropsWithChildren) => {
   return (
@@ -14,14 +15,17 @@ const Card = ({ children }: PropsWithChildren) => {
   );
 };
 
+
+
 export const Sidebar = () => {
   return (
     <>
-      <div className="h-screen w-1/5 bg-primary-surface border-r border-primary-surface-highlight flex-row">
-        <div className="w-full flex flex-col gap-2 p-8">
-          <Button leftIcon="variable_box">Global Variables</Button>
+      <div className="h-screen min-w-96 w-1/5 bg-primary-surface border-r border-primary-surface-highlight flex-row">
+        <div className="w-full flex flex-row gap-2 p-6">
+          <Button color="004687" leftIcon="data_array">Global Variables</Button>
           <Button leftIcon="code_json">Streaming Data</Button>
         </div>
+        <Divider />
       </div>
     </>
   );

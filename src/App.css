@@ -24,9 +24,11 @@
 
   --primary-accent: #008764;
   --secondary-accent: #5da690;
+  --tertiary-accent: #5D6CA6; 
 
   --primary-accent-hover: #00a97c;
   --secondary-accent-hover: #75ccb2;
+  --tertiary-accent-hover: #7a8aca;
 
   /* Brand */ 
   --brand: #005E46;
@@ -52,6 +54,9 @@
   --color-primary-accent-hover: var(--primary-accent-hover);
   --color-secondary-accent: var(--secondary-accent);
   --color-secondary-accent-hover: var(--secondary-accent-hover);
+  --color-tertiary-accent: var(--tertiary-accent); 
+  --color-tertiary-accent-hover: var(--tertiary-accent-hover); 
+
 
   /* Brand */
   --color-brand: var(--brand);

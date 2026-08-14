@@ -1,0 +1,37 @@
+const reverseString = (string: string): string => { 
+
+    const reversed = ""
+    for (const char of string) { 
+        reversed.
+    }
+
+    return reversed
+}
+
+const printPrimes = (upperLimit: number) => {
+    for (let currentNumber = 2; currentNumber <= upperLimit; currentNumber++) {
+        let isPrime = true;
+        const limit = Math.sqrt(currentNumber);
+
+        for (let primeFactor = 2; primeFactor <= limit; primeFactor++) {
+            if (currentNumber % primeFactor === 0) {
+                isPrime = false;
+                break;
+            }
+        }
+
+        if (isPrime) {
+            console.log(currentNumber);
+        }
+    }
+};
+
+const findMissingNumber = (complete: number[], partial: number[]): number | undefined => { 
+    const partialSet = new Set(partial)
+    for (const number of complete) {
+        if (partialSet.has(number)) { 
+            continue 
+        }
+        return number
+     }
+}
