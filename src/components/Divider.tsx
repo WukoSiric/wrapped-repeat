@@ -1,5 +1,5 @@
-export const Divider = () => { 
+export const Divider = () => {
   return (
-    <div className="w-full border-t border-primary-surface-highlight"></div>
-  )
-}
+    <div className="border-primary-surface-highlight w-full border-t"></div>
+  );
+};

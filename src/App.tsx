@@ -9,20 +9,20 @@ import { Divider } from "./components/Divider";
 
 const Card = ({ children }: PropsWithChildren) => {
   return (
-    <div className="h-fit w-full rounded-xl bg-primary-surface p-8 border border-primary-surface-highlight">
+    <div className="bg-primary-surface border-primary-surface-highlight h-fit w-full rounded-xl border p-8">
       {children}
     </div>
   );
 };
 
-
-
 export const Sidebar = () => {
   return (
     <>
-      <div className="h-screen min-w-96 w-1/5 bg-primary-surface border-r border-primary-surface-highlight flex-row">
-        <div className="w-full flex flex-row gap-2 p-6">
-          <Button color="004687" leftIcon="data_array">Global Variables</Button>
+      <div className="bg-primary-surface border-primary-surface-highlight max-h-full w-1/5 min-w-96 flex-row border-r">
+        <div className="flex w-full flex-row gap-2 p-6">
+          <Button color="004687" leftIcon="data_array">
+            Global Variables
+          </Button>
           <Button leftIcon="code_json">Streaming Data</Button>
         </div>
         <Divider />
@@ -31,23 +31,19 @@ export const Sidebar = () => {
   );
 };
 
-export const NavigationBar = () => {
-  return <></>;
-};
-
 const App = () => {
   return (
-    <div className="h-screen w-screen">
+    <div className="flex h-screen w-screen flex-col">
       <SimpleNavbar />
-      <div className="flex h-full flex-row col-span-2">
+      <div className="flex h-full flex-1 flex-row">
         <Sidebar />
         {/* Content */}
-        <div className="bg-background w-full h-full p-16">
+        <div className="bg-background flex-1 p-16">
           {/* Container */}
           <Card>
             <Heading variant="4XL">Track of the Year</Heading>
             <Heading variant="XL">Description</Heading>
-            <Textarea className="outline-tertiary-highlight w-full rounded-lg border-primary-surface-highlight bg-secondary-surface p-2 text-primary-text outline-1 outline-primary-surface-highlight" />
+            <Textarea className="outline-tertiary-highlight border-primary-surface-highlight bg-secondary-surface text-primary-text outline-primary-surface-highlight w-full rounded-lg p-2 outline-1" />
             <Heading variant="XL">JSON Transformation</Heading>
             <div className="flex flex-col gap-0.5">
               <div className="grid grid-cols-2 gap-1">
@@ -55,7 +51,7 @@ const App = () => {
                   <Heading variant="L">Formula</Heading>
                   <Editor
                     theme="vs-dark"
-                    className="outline-tertiary-highlight h-40 rounded-l bg-primary-surface p-2"
+                    className="outline-tertiary-highlight bg-primary-surface h-40 rounded-l p-2"
                     options={{
                       minimap: { enabled: false },
                     }}
@@ -65,7 +61,7 @@ const App = () => {
                   <Heading variant="L">Result</Heading>
                   <Editor
                     theme="vs-dark"
-                    className="outline-tertiary-highlight h-40 rounded-l bg-primary-surface p-2"
+                    className="outline-tertiary-highlight bg-primary-surface h-40 rounded-l p-2"
                     options={{
                       readOnly: true,
                       minimap: { enabled: false },
