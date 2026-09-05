@@ -15,15 +15,26 @@ const Card = ({ children }: PropsWithChildren) => {
   );
 };
 
+export const Slide = () => {
+  return <></>;
+};
+
 export const Sidebar = () => {
   return (
     <>
       <div className="bg-primary-surface border-primary-surface-highlight max-h-full w-1/5 min-w-96 flex-row border-r">
         <div className="flex w-full flex-row gap-2 p-6">
-          <Button color="004687" leftIcon="data_array">
+          <Button
+            className="bg-primary-global hover:bg-primary-global-hover"
+            leftIcon="data_array"
+          >
             Global Variables
           </Button>
           <Button leftIcon="code_json">Streaming Data</Button>
+        </div>
+        <Divider />
+        <div className="flex w-full flex-row gap-2 px-6 py-3">
+          <Heading variant="3XL">Slides</Heading>
         </div>
         <Divider />
       </div>

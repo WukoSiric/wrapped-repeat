@@ -5,7 +5,7 @@ const SimpleNavbar = () => {
   return (
     <nav className="bg-primary-surface border-primary-surface-highlight top-0 left-0 z-50 w-full border-b">
       <div className="flex-sp mx-auto flex h-14 items-center justify-between px-6">
-        <Heading variant="XL" className="select-none">
+        <Heading variant="3XL" className="select-none">
           <div className="flex flex-row items-center">
             <span>Re</span>
             <span className="text-brand">Wrapped</span>

@@ -1,30 +1,31 @@
 import { Button as HeadlessUIButton } from "@headlessui/react";
 import { Icon } from "./Icon";
+import { twMerge } from "tailwind-merge";
 import type { HTMLAttributes } from "react";
 
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   leftIcon?: string;
+  className?: string;
 }
 
 export const Button = ({
   leftIcon,
+  className,
   children,
   ...props
 }: React.PropsWithChildren<ButtonProps>) => {
   return (
     <HeadlessUIButton
-      className="w-full flex gap-2 cursor-pointer hover:bg-primary-accent-hover rounded-lg bg-primary-accent px-4 py-1 text-l font-medium text-primary-text transition-all ease-in-out select-none "
+      className={twMerge(
+        "hover:bg-primary-accent-hover bg-primary-accent text-l text-primary-text flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-1 font-medium transition-all ease-in-out select-none",
+        className,
+      )}
       {...props}
     >
-
-        {leftIcon && (
-          <Icon
-            name={leftIcon}
-            defaultStylingOverrides="h-5 w-5 shrink-0"
-          />
-        )}
-        <span className="flex-1">{children}</span>
-
+      {leftIcon && (
+        <Icon name={leftIcon} defaultStylingOverrides="h-5 w-5 shrink-0" />
+      )}
+      <span className="flex-1">{children}</span>
     </HeadlessUIButton>
   );
 };

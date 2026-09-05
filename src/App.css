@@ -30,6 +30,9 @@
   --secondary-accent-hover: #75ccb2;
   --tertiary-accent-hover: #7a8aca;
 
+  --primary-global: #004687;
+  --primary-global-hover: #005bb0; 
+
   /* Brand */ 
   --brand: #005E46;
 
@@ -60,6 +63,9 @@
 
   /* Brand */
   --color-brand: var(--brand);
+
+  --color-primary-global: var(--primary-global);
+  --color-primary-global-hover: var(--primary-global-hover);
 
 
 
