@@ -41,7 +41,7 @@ export const Sidebar = () => {
       </div>
       <Divider />
 
-      <div className="flex max-h-full min-h-0 max-w-full flex-1 flex-col gap-2 overflow-auto p-6">
+      <div className="flex max-h-full min-h-0 max-w-full flex-1 flex-col gap-2 overflow-x-hidden overflow-y-scroll p-6">
         <Slide
           title="Sample Slide"
           description="This is a sample slide"
