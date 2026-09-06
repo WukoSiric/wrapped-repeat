@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Icon } from "./Icon";
-import Heading from "./Heading";
-import { Pill } from "./Pill";
+import { Icon } from "../components/Icon";
+import Heading from "../components/Heading";
+import { Pill } from "../components/Pill";
 import { twMerge } from "tailwind-merge";
 
 interface SlideProps extends React.HTMLAttributes<HTMLDivElement> {
