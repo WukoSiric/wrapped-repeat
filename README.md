@@ -1,73 +1,94 @@
-# React + TypeScript + Vite
+# Wrapped Repeat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Wrapped Repeat is a customizable music presentation builder inspired by Spotify
+Wrapped. Import your Spotify listening history, define your own awards with
+code, and present the results as a polished, shareable story.
 
-Currently, two official plugins are available:
+> This project is currently in development.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How It Works
 
-## React Compiler
+1. Request your extended streaming history from [Spotify's account privacy
+   page](https://www.spotify.com/account/privacy/).
+2. Download the JSON streaming history files Spotify provides.
+3. Import the file into Wrapped Repeat.
+4. Configure awards and other slides with your own code.
+5. Select **Present** to turn the results into a Spotify Wrapped-style
+   presentation.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The presentation model separates imported configuration from computed results.
+Award code can work with the imported listening history and return flexible
+key-value rows, which can then be displayed using the columns you choose.
 
-## Expanding the ESLint configuration
+## Example Award
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+An award configuration can look like this:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```ts
+{
+  type: "award",
+  title: "Most Played Artists",
+  description: "The artists you listened to most",
+  columnsToPresent: ["artist", "minutes"],
+  code: `
+    result = streamingHistory
+      .reduce((totals, entry) => {
+        const artist = entry.master_metadata_album_artist_name;
+        if (!artist) return totals;
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+        totals[artist] = (totals[artist] ?? 0) + entry.ms_played;
+        return totals;
+      }, {})
+  `,
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The exact slide execution API is still being developed. The intended result
+is a list of rows such as:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```ts
+[
+  { artist: "OVERWERK", minutes: 842 },
+  { artist: "Daft Punk", minutes: 791 },
+];
 ```
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Run the production build:
+
+```bash
+npm run build
+```
+
+Run linting:
+
+```bash
+npm run lint
+```
+
+## Tech Stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Monaco Editor
+
+## Privacy
+
+Spotify streaming history can contain sensitive information, including
+timestamps, device details, country information, and IP addresses. Keep
+exported files private and only import them into an application you trust.
