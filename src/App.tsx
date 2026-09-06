@@ -35,7 +35,7 @@ export const Sidebar = () => {
         </div>
         <Divider />
         <div className="flex w-full flex-col gap-2 px-6 py-3">
-          <Heading variant="3XL">Slides</Heading>
+          <Heading variant="4XL">Slides</Heading>
           <div className="flex flex-row gap-2">
             <Pill>Award</Pill>
             <Pill>Transitions</Pill>

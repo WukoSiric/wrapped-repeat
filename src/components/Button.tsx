@@ -22,9 +22,7 @@ export const Button = ({
       )}
       {...props}
     >
-      {leftIcon && (
-        <Icon name={leftIcon} defaultStylingOverrides="h-5 w-5 shrink-0" />
-      )}
+      {leftIcon && <Icon name={leftIcon} className="h-5 w-5 shrink-0" />}
       <span className="flex-1">{children}</span>
     </HeadlessUIButton>
   );

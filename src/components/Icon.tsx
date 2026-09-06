@@ -1,17 +1,19 @@
+import { twMerge } from "tailwind-merge";
+
 interface IconProps extends React.HTMLAttributes<HTMLSpanElement> {
   name: string;
-  defaultStylingOverrides?: string;
+  className?: string;
 }
 
-export const Icon = ({
-  name,
-  defaultStylingOverrides,
-  className,
-  ...rest
-}: IconProps) => {
+export const Icon = ({ name, className, ...rest }: IconProps) => {
   return (
     <span
-      className={`material-icons ${defaultStylingOverrides !== undefined ? defaultStylingOverrides : "text-9xl text-primary-surface-accent w-full"} select-none ${className}`}
+      className={twMerge(
+        "material-icons",
+        "text-primary-surface-accent w-full text-9xl",
+        "select-none",
+        className,
+      )}
       {...rest}
     >
       {name}
