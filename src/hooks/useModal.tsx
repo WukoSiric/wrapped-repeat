@@ -77,7 +77,7 @@ export const ModalPortal = () => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-16 backdrop-blur-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-81 py-12 backdrop-blur-lg">
       {modal}
     </div>,
     modalRoot,
