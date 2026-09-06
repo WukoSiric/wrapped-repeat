@@ -8,6 +8,7 @@ import { Button } from "./components/Button";
 import { Divider } from "./components/Divider";
 import { Pill } from "./components/Pill";
 import { Slide } from "./components/Slide";
+import { Search } from "./components/Search";
 
 const Card = ({ children }: PropsWithChildren) => {
   return (
@@ -37,10 +38,26 @@ export const Sidebar = () => {
             <Pill>Award</Pill>
             <Pill>Transitions</Pill>
           </div>
+          <Search />
         </div>
         <Divider />
 
         <div className="flex flex-col gap-2 p-6">
+          <Slide
+            title="Sample Slide"
+            description="This is a sample slide"
+            slideType="award"
+          />
+          <Slide
+            title="Sample Slide"
+            description="This is a sample slide"
+            slideType="award"
+          />
+          <Slide
+            title="Transition Slide"
+            description="Going to the next section"
+            slideType="transition"
+          />
           <Slide
             title="Sample Slide"
             description="This is a sample slide"

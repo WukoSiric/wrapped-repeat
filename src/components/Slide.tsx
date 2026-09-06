@@ -32,13 +32,23 @@ export const Slide = ({
       <div className="flex flex-col gap-1">
         <Heading className="flex-1">{title}</Heading>
         <div className="flex flex-row items-center gap-1">
-          <Pill className="py-0" enabled={true} allowToggle={false}>
-            {slideType === "award" ? "Award" : "Transition"}
-          </Pill>
+          {slideType === "award" ? (
+            <Pill className="py-0" enabled={true} allowToggle={false}>
+              Award
+            </Pill>
+          ) : (
+            <Pill
+              className="bg-primary-surface py-0"
+              enabled={true}
+              allowToggle={false}
+            >
+              Transition
+            </Pill>
+          )}
           <p className="min-w-0 flex-1 truncate">{description}</p>
         </div>
       </div>
-      <Icon name="reorder_horizontal" className="h-6 w-6" />
+      <Icon name="reorder_horizontal" className="h-6 w-6 p-1" />
     </div>
   );
 };
