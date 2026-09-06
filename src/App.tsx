@@ -7,6 +7,7 @@ import Heading from "./components/Heading";
 import { Button } from "./components/Button";
 import { Divider } from "./components/Divider";
 import { Pill } from "./components/Pill";
+import { Slide } from "./components/Slide";
 
 const Card = ({ children }: PropsWithChildren) => {
   return (
@@ -14,10 +15,6 @@ const Card = ({ children }: PropsWithChildren) => {
       {children}
     </div>
   );
-};
-
-export const Slide = () => {
-  return <></>;
 };
 
 export const Sidebar = () => {
@@ -42,6 +39,14 @@ export const Sidebar = () => {
           </div>
         </div>
         <Divider />
+
+        <div className="flex flex-col gap-2 p-6">
+          <Slide
+            title="Sample Slide"
+            description="This is a sample slide"
+            slideType="award"
+          />
+        </div>
       </div>
     </>
   );

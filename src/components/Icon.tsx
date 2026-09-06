@@ -10,7 +10,7 @@ export const Icon = ({ name, className, ...rest }: IconProps) => {
     <span
       className={twMerge(
         "material-icons",
-        "text-primary-surface-accent w-full text-9xl",
+        "text-primary-surface-accent text-9xl",
         "select-none",
         className,
       )}

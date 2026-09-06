@@ -1,7 +1,7 @@
-import React, { useState, type HTMLAttributes } from "react";
+import React, { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface PillProps extends HTMLAttributes<HTMLDivElement> {
+interface PillProps {
   className?: string;
   enabled?: boolean;
   onClick?: () => void;
