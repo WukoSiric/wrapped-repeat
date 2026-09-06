@@ -3,6 +3,7 @@ import {
   type ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -19,9 +20,7 @@ const ModalContext = createContext<ModalContextValue | null>(null);
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
   const [modal, setModal] = useState<ReactNode | null>(null);
-
   const openModal = useCallback((content: ReactNode) => setModal(content), []);
-
   const closeModal = useCallback(() => setModal(null), []);
 
   const value = useMemo(
@@ -46,11 +45,41 @@ export const useModal = () => {
 
 export const ModalPortal = () => {
   const context = useContext(ModalContext);
-  const modalRoot = document.getElementById("modal-root");
 
-  if (!context || !modalRoot) {
+  if (!context) {
     return null;
   }
 
-  return createPortal(context.modal, modalRoot);
+  const { closeModal, modal } = context;
+
+  useEffect(() => {
+    if (modal === null) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [closeModal, modal]);
+
+  const modalRoot = document.getElementById("modal-root");
+
+  if (!modalRoot || modal === null) {
+    return null;
+  }
+
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-16 backdrop-blur-lg">
+      {modal}
+    </div>,
+    modalRoot,
+  );
 };

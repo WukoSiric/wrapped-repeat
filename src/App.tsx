@@ -16,7 +16,7 @@ const App = () => {
 
 const AppLayout = () => {
   return (
-    <div className="flex max-h-screen w-screen flex-col">
+    <div className="flex h-screen w-screen flex-col">
       <SimpleNavbar />
       <div className="flex min-h-0 flex-1 flex-row">
         <Sidebar />

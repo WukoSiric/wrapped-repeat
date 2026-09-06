@@ -17,7 +17,7 @@ export const Button = ({
   return (
     <HeadlessUIButton
       className={twMerge(
-        "hover:bg-primary-accent-hover bg-primary-accent text-l text-primary-text flex w-fit cursor-pointer items-center gap-2 rounded-lg px-4 py-1 font-medium transition-all ease-in-out select-none",
+        "hover:bg-primary-accent-hover bg-primary-accent text-l text-primary-text flex w-fit cursor-pointer items-center gap-2 rounded-lg px-4 py-1 font-medium outline-0 transition-all ease-in-out select-none",
         className,
       )}
       {...props}
