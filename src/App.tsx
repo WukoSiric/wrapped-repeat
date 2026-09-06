@@ -6,6 +6,7 @@ import SimpleNavbar from "./components/SimpleNavbar";
 import Heading from "./components/Heading";
 import { Button } from "./components/Button";
 import { Divider } from "./components/Divider";
+import { Pill } from "./components/Pill";
 
 const Card = ({ children }: PropsWithChildren) => {
   return (
@@ -33,8 +34,12 @@ export const Sidebar = () => {
           <Button leftIcon="code_json">Streaming Data</Button>
         </div>
         <Divider />
-        <div className="flex w-full flex-row gap-2 px-6 py-3">
+        <div className="flex w-full flex-col gap-2 px-6 py-3">
           <Heading variant="3XL">Slides</Heading>
+          <div className="flex flex-row gap-2">
+            <Pill>Award</Pill>
+            <Pill>Transitions</Pill>
+          </div>
         </div>
         <Divider />
       </div>
