@@ -1,6 +1,6 @@
-# Wrapped Repeat
+# ReWrapped
 
-Wrapped Repeat is a customizable music presentation builder inspired by Spotify
+ReWrapped is a customizable music presentation builder inspired by Spotify
 Wrapped. Import your Spotify listening history, define your own awards with
 code, and present the results as a polished, shareable story.
 
@@ -11,7 +11,7 @@ code, and present the results as a polished, shareable story.
 1. Request your extended streaming history from [Spotify's account privacy
    page](https://www.spotify.com/account/privacy/).
 2. Download the JSON streaming history files Spotify provides.
-3. Import the file into Wrapped Repeat.
+3. Import the file into ReWrapped.
 4. Configure awards and other slides with your own code.
 5. Select **Present** to turn the results into a Spotify Wrapped-style
    presentation.
