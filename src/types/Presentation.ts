@@ -1,13 +1,13 @@
-export type Presentation = {
-  slides: Slide[];
+export type PresentationConfiguration = {
+  slides: SlideConfiguration[];
 };
 
-export type Slide =
+export type SlideConfiguration =
   | {
       type: "award";
       title: string;
       description: string;
-      columns_to_present: string[];
+      columnsToPresent: string[];
       code: string;
     }
   | {
@@ -16,3 +16,18 @@ export type Slide =
       description: string;
       image: string;
     };
+
+export type PresentationResult = {
+  slides: SlideResult[];
+};
+
+export type SlideResult = {
+  type: "award" | "transition" | "custom";
+  title: string;
+  description: string;
+  columnsToPresent?: string[];
+  results: Result[];
+};
+
+export type Result = Record<string, ResultValue>;
+export type ResultValue = string | number;
