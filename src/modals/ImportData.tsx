@@ -1,18 +1,13 @@
 import { Input } from "@headlessui/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { Card } from "../components/Card";
 import Heading from "../components/Heading";
 import { Icon } from "../components/Icon";
 import { useModal } from "../hooks/useModal";
+import { useStreamingHistory } from "../hooks/useStreamingHistory";
+import { useFiles } from "../hooks/useFiles";
 import { Pill } from "../components/Pill";
-import {
-  extractYears,
-  importStreamingHistory,
-} from "../helpers/streamingHistoryHelper";
-import type {
-  StreamingHistory,
-  StreamingHistoryJson,
-} from "../types/StreamingHistory";
+import { extractYears } from "../helpers/streamingHistoryHelper";
 import { Button } from "../components/Button";
 
 const UploadedFile = ({ title }: { title: string }) => {
@@ -28,39 +23,21 @@ const UploadedFile = ({ title }: { title: string }) => {
 
 export const ImportData = () => {
   const { closeModal } = useModal();
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [history, setHistory] = useState<StreamingHistory[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const { streamingHistory, error } = useStreamingHistory();
+  const { files, setFiles } = useFiles();
 
-  const handleFileUpload = useCallback(async (files: FileList | null) => {
-    if (!files?.length) {
-      return;
-    }
-
-    try {
-      const selectedFiles = Array.from(files);
-      const parsedHistory = await Promise.all(
-        selectedFiles.map(async (file) => {
-          const json = JSON.parse(await file.text()) as StreamingHistoryJson[];
-
-          if (!Array.isArray(json)) {
-            throw new Error(`${file.name} does not contain a JSON array.`);
-          }
-
-          return importStreamingHistory(json);
-        }),
-      );
-
-      setUploadedFiles(selectedFiles);
-      setHistory(parsedHistory.flat());
-      setError(null);
-    } catch {
-      setError("One or more files could not be imported.");
-    }
-  }, []);
+  const handleFileUpload = useCallback(
+    (fileList: FileList | null) => {
+      if (!fileList?.length) {
+        return;
+      }
+      setFiles(Array.from(fileList));
+    },
+    [setFiles],
+  );
 
   const yearsSection = useMemo(() => {
-    const years = extractYears(history);
+    const years = extractYears(streamingHistory);
 
     return (
       <div className="flex flex-row gap-2">
@@ -78,7 +55,7 @@ export const ImportData = () => {
           ))}
           <Button
             onClick={() => {
-              console.log(history);
+              console.log(streamingHistory);
             }}
           >
             Log history
@@ -86,7 +63,7 @@ export const ImportData = () => {
         </div>
       </div>
     );
-  }, [history]);
+  }, [streamingHistory]);
 
   const uploadButton = useMemo(
     () => (
@@ -133,13 +110,13 @@ export const ImportData = () => {
           {uploadButton}
           <div className="flex min-h-0 w-full flex-1 flex-col gap-2">
             {yearsSection}
-            {history.length > 0 && (
+            {streamingHistory.length > 0 && (
               <p className="text-primary-text text-md">
-                Imported {history.length} listening records
+                Imported {streamingHistory.length} listening records
               </p>
             )}
             <div className="flex min-h-0 flex-col gap-2 overflow-y-auto">
-              {uploadedFiles.map((file) => (
+              {files.map((file) => (
                 <UploadedFile key={file.name} title={file.name} />
               ))}
 

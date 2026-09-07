@@ -3,13 +3,19 @@ import SimpleNavbar from "./components/SimpleNavbar";
 import { Sidebar } from "./components/Sidebar";
 import { SlideContent } from "./slide/SlideContent";
 import { ModalPortal, ModalProvider } from "./hooks/useModal";
+import { StreamingHistoryProvider } from "./hooks/useStreamingHistory";
+import { FileProvider } from "./hooks/useFiles";
 
 const App = () => {
   return (
     <ModalProvider>
-      <AppLayout />
-      <div id="modal-root" />
-      <ModalPortal />
+      <FileProvider>
+        <StreamingHistoryProvider>
+          <AppLayout />
+          <div id="modal-root" />
+          <ModalPortal />
+        </StreamingHistoryProvider>
+      </FileProvider>
     </ModalProvider>
   );
 };
