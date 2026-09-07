@@ -34,3 +34,28 @@ export type StreamingHistoryJson = {
   offline_timestamp: number | null;
   incognito_mode: boolean | null;
 };
+
+/*
+ * Source of truth identifier for tracks, should have the format of `${title}__${artist}`
+ */
+export type TrackId = String;
+
+export type StreamingHistory = {
+  /** ISO 8601 timestamp for when playback started. */
+  ts: string;
+  /** Device or operating system used for playback. */
+  platform: string;
+  /** Playback duration in milliseconds. */
+  msPlayed: number;
+  title: string | null;
+  artist: string | null;
+  album: string | null;
+  /** Spotify URI for the played track. */
+  track_id: TrackId;
+  /** Reason playback started, such as trackdone or clickrow. */
+  reason_start: string | null;
+  reason_end: string | null;
+  shuffle: boolean | null;
+  skipped: boolean | null;
+  incognito_mode: boolean | null;
+};
