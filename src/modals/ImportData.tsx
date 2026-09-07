@@ -53,13 +53,6 @@ export const ImportData = () => {
               {year}
             </Pill>
           ))}
-          <Button
-            onClick={() => {
-              console.log(streamingHistory);
-            }}
-          >
-            Log history
-          </Button>
         </div>
       </div>
     );
