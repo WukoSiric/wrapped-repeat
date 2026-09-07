@@ -1,11 +1,14 @@
 import { Input } from "@headlessui/react";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Card } from "../components/Card";
 import Heading from "../components/Heading";
 import { Icon } from "../components/Icon";
 import { useModal } from "../hooks/useModal";
 import { Pill } from "../components/Pill";
-import { importStreamingHistory } from "../helpers/streamingHistoryHelper";
+import {
+  extractYears,
+  importStreamingHistory,
+} from "../helpers/streamingHistoryHelper";
 import type {
   StreamingHistory,
   StreamingHistoryJson,
@@ -29,7 +32,7 @@ export const ImportData = () => {
   const [history, setHistory] = useState<StreamingHistory[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const handleFileUpload = async (files: FileList | null) => {
+  const handleFileUpload = useCallback(async (files: FileList | null) => {
     if (!files?.length) {
       return;
     }
@@ -54,77 +57,92 @@ export const ImportData = () => {
     } catch {
       setError("One or more files could not be imported.");
     }
-  };
+  }, []);
+
+  const yearsSection = useMemo(() => {
+    const years = extractYears(history);
+
+    return (
+      <div className="flex flex-row gap-2">
+        <Heading variant="XL">Years: </Heading>
+        <div className="flex flex-row gap-2">
+          {years.map((year) => (
+            <Pill
+              key={year}
+              enabled={true}
+              allowToggle={false}
+              className="cursor-default py-0"
+            >
+              {year}
+            </Pill>
+          ))}
+          <Button
+            onClick={() => {
+              console.log(history);
+            }}
+          >
+            Log history
+          </Button>
+        </div>
+      </div>
+    );
+  }, [history]);
+
+  const uploadButton = useMemo(
+    () => (
+      <label className="text-primary-text flex w-fit cursor-pointer flex-col items-center gap-2">
+        <Icon
+          className="border-primary-text flex aspect-square items-center justify-center rounded-lg border-2 border-dashed p-12 transition-colors hover:bg-black"
+          name="upload"
+          size={96}
+        />
+        <p>Drag And Drop or Browse</p>
+        <Input
+          type="file"
+          accept=".json,application/json"
+          multiple
+          className="sr-only"
+          onChange={(event) => handleFileUpload(event.currentTarget.files)}
+        />
+      </label>
+    ),
+    [handleFileUpload],
+  );
+
+  const heading = useMemo(() => {
+    return (
+      <div className="flex w-full flex-row justify-between">
+        <Heading variant="4XL">Import Data</Heading>
+        <Icon
+          name="close"
+          className="text-primary-text cursor-pointer"
+          onClick={() => {
+            closeModal();
+          }}
+          size={36}
+        />
+      </div>
+    );
+  }, [closeModal]);
 
   return (
-    <Card className="h-full max-h-full min-h-0 overflow-hidden">
+    <Card className="h-full max-h-full overflow-hidden">
       <div className="flex h-full min-h-0 flex-col items-center gap-8 p-4">
-        <div className="flex w-full flex-row justify-between">
-          <Heading variant="4XL">Import Data</Heading>
-          <Icon
-            name="close"
-            className="text-primary-text cursor-pointer"
-            onClick={() => {
-              closeModal();
-            }}
-            size={36}
-          />
-        </div>
-
-        <div className="flex min-h-0 w-full flex-1 flex-row gap-4">
-          {/*  Upload Button */}
-          <label className="text-primary-text flex w-fit cursor-pointer flex-col items-center gap-2">
-            <Icon
-              className="border-primary-text flex aspect-square items-center justify-center rounded-lg border-2 border-dashed p-12 transition-colors hover:bg-black"
-              name="upload"
-              size={96}
-            />
-            <p>Drag And Drop or Browse</p>
-            <Input
-              type="file"
-              accept=".json,application/json"
-              multiple
-              className="sr-only"
-              onChange={(event) => handleFileUpload(event.currentTarget.files)}
-            />
-          </label>
-          {/* Uploaded Files */}
+        {heading}
+        <div className="flex min-h-0 w-full flex-row gap-4">
+          {uploadButton}
           <div className="flex min-h-0 w-full flex-1 flex-col gap-2">
-            <div className="flex flex-row gap-2">
-              <Heading variant="XL">Years: </Heading>
-              <div className="flex flex-row gap-2">
-                <Pill
-                  enabled={true}
-                  allowToggle={false}
-                  className="cursor-default py-0"
-                >
-                  2020
-                </Pill>
-                <Pill
-                  enabled={true}
-                  allowToggle={false}
-                  className="cursor-default py-0"
-                >
-                  2021
-                </Pill>
-                <Button
-                  onClick={() => {
-                    console.log(history);
-                  }}
-                >
-                  Log history
-                </Button>
-              </div>
-            </div>
-            <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+            {yearsSection}
+            {history.length > 0 && (
+              <p className="text-primary-text text-md">
+                Imported {history.length} listening records
+              </p>
+            )}
+            <div className="flex min-h-0 flex-col gap-2 overflow-y-auto">
               {uploadedFiles.map((file) => (
                 <UploadedFile key={file.name} title={file.name} />
               ))}
-              {history.length > 0 && (
-                <p className="text-primary-text text-sm">
-                  Imported {history.length} listening records
-                </p>
-              )}
+
               {error && <p className="text-sm text-red-500">{error}</p>}
             </div>
           </div>

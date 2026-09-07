@@ -9,6 +9,17 @@ export const createTrackId = (
   artist: string | null,
 ): TrackId => `${title}__${artist}`;
 
+export const extractYears = (history: StreamingHistory[]): number[] =>
+  Array.from(
+    new Set(
+      history.flatMap((entry) => {
+        const date = new Date(entry.ts);
+
+        return Number.isNaN(date.getTime()) ? [] : [date.getUTCFullYear()];
+      }),
+    ),
+  ).sort((firstYear, secondYear) => firstYear - secondYear);
+
 export const importStreamingHistory = (
   json: StreamingHistoryJson[],
 ): StreamingHistory[] =>
