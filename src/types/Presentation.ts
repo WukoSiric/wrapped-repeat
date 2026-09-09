@@ -2,20 +2,27 @@ export type PresentationConfiguration = {
   slides: SlideConfiguration[];
 };
 
-export type SlideConfiguration =
-  | {
-      type: "award";
-      title: string;
-      description: string;
-      columnsToPresent: string[];
-      code: string;
-    }
-  | {
-      type: "transition";
-      title: string;
-      description: string;
-      image: string;
-    };
+export const SlideType = {
+  song: "song",
+  artist: "artist",
+  album: "album",
+  transition: "transition",
+} as const;
+
+export type SlideType = (typeof SlideType)[keyof typeof SlideType];
+
+export type SlideConfiguration = {
+  type: SlideType;
+  title: string;
+  description: string;
+  image?: string;
+};
+
+export type AwardSlideConfiguration = SlideConfiguration & {
+  type: Omit<SlideType, typeof SlideType.transition>;
+  code: string;
+  columnsToPresent: string[];
+};
 
 export type PresentationResult = {
   slides: SlideResult[];
