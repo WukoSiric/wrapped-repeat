@@ -5,6 +5,7 @@ import { SlideContent } from "./slide/SlideContent";
 import { ModalPortal, ModalProvider } from "./hooks/useModal";
 import { StreamingHistoryProvider } from "./hooks/useStreamingHistory";
 import { FileProvider } from "./hooks/useFiles";
+import { VariablePanel } from "./components/VariablePanel";
 
 const App = () => {
   return (
@@ -26,7 +27,8 @@ const AppLayout = () => {
       <SimpleNavbar />
       <div className="flex min-h-0 flex-1 flex-row">
         <Sidebar />
-        <div className="bg-background flex-1 p-16">
+        <div className="bg-background relative flex-1 p-16">
+          <VariablePanel />
           <SlideContent
             title="Track of the Year"
             description="The best track of the year"
