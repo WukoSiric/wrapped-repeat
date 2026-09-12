@@ -12,9 +12,14 @@ import type { StreamingHistory } from "../types/StreamingHistory";
 import { importStreamingHistory } from "../helpers/streamingHistoryHelper";
 import type { StreamingHistoryJson } from "../types/StreamingHistory";
 import { useFiles } from "./useFiles";
+import {
+  GlobalVariableBuilder,
+  type GlobalVariableBuilderResult,
+} from "../helpers/GlobalVariableBuilder";
 
 type StreamingHistoryContextValue = {
   streamingHistory: StreamingHistory[];
+  globalVariables: GlobalVariableBuilderResult;
   setStreamingHistory: Dispatch<SetStateAction<StreamingHistory[]>>;
   error: string | null;
 };
@@ -30,6 +35,7 @@ export const StreamingHistoryProvider = ({
   const [streamingHistory, setStreamingHistory] = useState<StreamingHistory[]>(
     [],
   );
+
   const [error, setError] = useState<string | null>(null);
   const { files } = useFiles();
 
@@ -70,9 +76,23 @@ export const StreamingHistoryProvider = ({
     };
   }, [files]);
 
+  const globalVariables = useMemo(() => {
+    const globalVariableBuilder = new GlobalVariableBuilder(streamingHistory);
+
+    const globalVariables = globalVariableBuilder
+      .addYearlyAggregate()
+      .addHalfAggregate()
+      .addQuarterlyAggregate()
+      .addYearOverYearAggregate()
+      .build();
+
+    console.log(globalVariables);
+    return globalVariables;
+  }, [streamingHistory]);
+
   const value = useMemo(
-    () => ({ streamingHistory, setStreamingHistory, error }),
-    [error, streamingHistory],
+    () => ({ streamingHistory, globalVariables, setStreamingHistory, error }),
+    [error, globalVariables, streamingHistory],
   );
 
   return (

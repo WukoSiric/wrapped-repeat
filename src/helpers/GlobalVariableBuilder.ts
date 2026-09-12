@@ -93,7 +93,7 @@ const getEntityMeta = (
 
 const toNullableNumber = (value: number | null): number | null => value;
 
-export type GlobalVariableBuilderResult = StreamingHistory[] & {
+export type GlobalVariableBuilderResult = {
   yearlyAggregate?: YearlyAggregate[];
   halfAggregate?: HalfYearAggregate[];
   quarterlyAggregate?: QuarterlyAggregate[];
@@ -101,14 +101,16 @@ export type GlobalVariableBuilderResult = StreamingHistory[] & {
 };
 
 export class GlobalVariableBuilder {
-  private readonly history: GlobalVariableBuilderResult;
+  private readonly history: StreamingHistory[];
+  private readonly result: GlobalVariableBuilderResult;
   private readonly entityType: AggregateEntity;
 
   constructor(
     history: StreamingHistory[],
     entityType: AggregateEntity = "title",
   ) {
-    this.history = history as GlobalVariableBuilderResult;
+    this.history = history;
+    this.result = {};
     this.entityType = entityType;
   }
 
@@ -141,7 +143,7 @@ export class GlobalVariableBuilder {
   }
 
   build(): GlobalVariableBuilderResult {
-    return this.history;
+    return this.result;
   }
 
   private buildYearlyAggregate(): GlobalVariableBuilderResult {
@@ -262,9 +264,9 @@ export class GlobalVariableBuilder {
         return first.entityName.localeCompare(second.entityName);
       });
 
-    this.history.yearlyAggregate = yearlyAggregate;
+    this.result.yearlyAggregate = yearlyAggregate;
 
-    return this.history;
+    return this.result;
   }
 
   private buildPeriodAggregate(
@@ -417,9 +419,9 @@ export class GlobalVariableBuilder {
           return first.entityName.localeCompare(second.entityName);
         });
 
-      this.history.halfAggregate = halfAggregate;
+      this.result.halfAggregate = halfAggregate;
 
-      return this.history;
+      return this.result;
     }
 
     const quarterlyAggregate = Array.from(rows.values())
@@ -475,9 +477,9 @@ export class GlobalVariableBuilder {
         return first.entityName.localeCompare(second.entityName);
       });
 
-    this.history.quarterlyAggregate = quarterlyAggregate;
+    this.result.quarterlyAggregate = quarterlyAggregate;
 
-    return this.history;
+    return this.result;
   }
 
   private buildHalfYearAggregate(): GlobalVariableBuilderResult {
@@ -490,7 +492,7 @@ export class GlobalVariableBuilder {
 
   private buildYearOverYearAggregate(): GlobalVariableBuilderResult {
     const yearlyRows =
-      this.history.yearlyAggregate ??
+      this.result.yearlyAggregate ??
       this.buildYearlyAggregate().yearlyAggregate ??
       [];
 
@@ -542,8 +544,8 @@ export class GlobalVariableBuilder {
       return first.year.localeCompare(second.year);
     });
 
-    this.history.yearOverYearAggregate = yearOverYearAggregate;
+    this.result.yearOverYearAggregate = yearOverYearAggregate;
 
-    return this.history;
+    return this.result;
   }
 }
