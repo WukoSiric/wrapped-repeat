@@ -35,7 +35,9 @@ export const Modal = ({
     <Card className="h-full max-h-full overflow-hidden">
       <div className="flex h-full min-h-0 flex-col items-center gap-8 p-4">
         {heading}
-        <div className="flex min-h-0 w-full flex-row gap-4">{children}</div>
+        <div className="flex min-h-0 w-full flex-1 flex-row gap-4">
+          {children}
+        </div>
       </div>
     </Card>
   );
