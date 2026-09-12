@@ -68,7 +68,7 @@ export const SlideContent = ({
               <Heading variant="L">Input</Heading>
               <Editor
                 theme="vs-dark"
-                className="outline-tertiary-highlight bg-primary-surface h-full rounded-l p-2"
+                className="outline-tertiary-highlight bg-primary-surface absolute h-full rounded-l p-2"
                 options={{
                   minimap: { enabled: false },
                   automaticLayout: true,
@@ -87,7 +87,7 @@ export const SlideContent = ({
               <Heading variant="L">Result</Heading>
               <Editor
                 theme="vs-dark"
-                className="outline-tertiary-highlight bg-primary-surface h-full rounded-l p-2"
+                className="outline-tertiary-highlight bg-primary-surface absolute h-full rounded-l p-2"
                 defaultLanguage="javascript"
                 options={{
                   readOnly: true,
