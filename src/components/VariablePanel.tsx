@@ -28,21 +28,21 @@ export const VariablePanel = () => {
 
   return (
     <div className="absolute right-8 bottom-8 z-1">
-      <Card className="bg-primary-global flex max-h-full w-sm flex-col gap-2 2xl:w-lg">
+      <Card className="bg-primary-global flex max-h-full w-sm flex-col gap-2 px-0 py-2 2xl:w-lg">
         <Editor
           theme="vs-dark"
           options={{
             automaticLayout: true,
             lineNumbers: "off",
-            fontSize: 10,
+            fontSize: 12,
             minimap: { enabled: false },
           }}
-          className={`${collapsed ? "hidden" : ""} outline-tertiary-highlight bg-primary-surface h-full min-h-72 flex-1 rounded-l p-2`}
+          className={`${collapsed ? "hidden" : ""} outline-tertiary-highlight bg-primary-global h-full min-h-72 flex-1 rounded-l p-2`}
           value={stringifyJson(globalVariablesPreview)}
           defaultLanguage="json"
         />
         <div
-          className="flex cursor-pointer flex-row justify-between select-none"
+          className="flex cursor-pointer flex-row justify-between p-4 select-none"
           onClick={() => setCollapsed(!collapsed)}
         >
           <Heading>Variables</Heading>
