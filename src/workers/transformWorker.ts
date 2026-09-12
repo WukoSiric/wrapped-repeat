@@ -20,7 +20,11 @@ self.onmessage = (
       `,
     );
 
-    const result = transform(globalVariables, streamingHistory);
+    let result = transform(globalVariables, streamingHistory);
+
+    if (Array.isArray(result)) {
+      result = result.slice(0, 100);
+    }
 
     self.postMessage({
       result,

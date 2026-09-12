@@ -29,20 +29,18 @@ export const VariablePanel = () => {
   return (
     <div className="absolute right-8 bottom-8 z-1">
       <Card className="bg-primary-global flex max-h-full w-sm flex-col gap-2 2xl:w-lg">
-        {!collapsed && (
-          <Editor
-            theme="vs-dark"
-            options={{
-              automaticLayout: true,
-              lineNumbers: "off",
-              fontSize: 10,
-              minimap: { enabled: false },
-            }}
-            className="outline-tertiary-highlight bg-primary-surface h-full min-h-72 flex-1 rounded-l p-2"
-            value={stringifyJson(globalVariablesPreview)}
-            defaultLanguage="json"
-          />
-        )}
+        <Editor
+          theme="vs-dark"
+          options={{
+            automaticLayout: true,
+            lineNumbers: "off",
+            fontSize: 10,
+            minimap: { enabled: false },
+          }}
+          className={`${collapsed ? "hidden" : ""} outline-tertiary-highlight bg-primary-surface h-full min-h-72 flex-1 rounded-l p-2`}
+          value={stringifyJson(globalVariablesPreview)}
+          defaultLanguage="json"
+        />
         <div
           className="flex cursor-pointer flex-row justify-between select-none"
           onClick={() => setCollapsed(!collapsed)}
