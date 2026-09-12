@@ -2,8 +2,9 @@ import { Textarea } from "@headlessui/react";
 import Heading from "../components/Heading";
 import { Editor } from "@monaco-editor/react";
 import { Card } from "../components/Card";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
+import { debounce } from "lodash";
 
 interface SlideContentProps {
   title: string;
@@ -19,6 +20,20 @@ export const SlideContent = ({
   const [slideConfiguration, setSlideConfiguration] = useState("");
 
   const { globalVariables, streamingHistory } = useStreamingHistory();
+
+  const debouncedSetSlideConfiguration = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSlideConfiguration(value);
+      }, 1000),
+    [],
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedSetSlideConfiguration.cancel();
+    };
+  }, [debouncedSetSlideConfiguration]);
 
   const transform = useMemo(() => {
     if (!slideConfiguration) {
@@ -77,9 +92,11 @@ export const SlideContent = ({
                 defaultLanguage="javascript"
                 onChange={(value) => {
                   if (!value) {
+                    debouncedSetSlideConfiguration("");
                     return;
                   }
-                  setSlideConfiguration(value);
+
+                  debouncedSetSlideConfiguration(value);
                 }}
               />
             </div>
