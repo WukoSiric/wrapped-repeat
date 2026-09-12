@@ -5,6 +5,7 @@ import { Card } from "../components/Card";
 import { useEffect, useMemo, useState } from "react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { debounce } from "lodash";
+import { MONACO_TRANSFORM_TYPES } from "../helpers/monacoTransformTypes";
 
 interface SlideContentProps {
   title: string;
@@ -20,6 +21,7 @@ export const SlideContent = ({
   const [slideConfiguration, setSlideConfiguration] = useState("");
 
   const { globalVariables, streamingHistory } = useStreamingHistory();
+  const [result, setResult] = useState("");
 
   const debouncedSetSlideConfiguration = useMemo(
     () =>
@@ -35,32 +37,40 @@ export const SlideContent = ({
     };
   }, [debouncedSetSlideConfiguration]);
 
-  const transform = useMemo(() => {
+  useEffect(() => {
     if (!slideConfiguration) {
-      return null;
+      setResult("");
+      return;
     }
 
-    try {
-      return new Function(
-        "global",
-        "streamingHistory",
-        `
-        "use strict";
-        ${slideConfiguration}
-      `,
-      );
-    } catch {
-      return null;
-    }
-  }, [slideConfiguration]);
+    const worker = new Worker(
+      new URL("../workers/transformWorker.ts", import.meta.url),
+      {
+        type: "module",
+      },
+    );
 
-  const result = useMemo(() => {
-    try {
-      const result = transform?.(globalVariables, streamingHistory);
-      return JSON.stringify(result, null, 2);
-    } catch (error) {
-      return "";
-    }
+    const handleMessage = (event: MessageEvent<{ result?: string }>) => {
+      setResult(event.data.result ?? "");
+    };
+
+    const handleError = () => {
+      setResult("");
+    };
+
+    worker.addEventListener("message", handleMessage);
+    worker.addEventListener("error", handleError);
+    worker.postMessage({
+      code: slideConfiguration,
+      globalVariables,
+      streamingHistory,
+    });
+
+    return () => {
+      worker.removeEventListener("message", handleMessage);
+      worker.removeEventListener("error", handleError);
+      worker.terminate();
+    };
   }, [slideConfiguration, globalVariables, streamingHistory]);
 
   return (
@@ -90,6 +100,12 @@ export const SlideContent = ({
                 }}
                 defaultValue={editorContent}
                 defaultLanguage="javascript"
+                beforeMount={(monaco) => {
+                  monaco.languages.typescript.javascriptDefaults.addExtraLib(
+                    MONACO_TRANSFORM_TYPES,
+                    "file:///transform-types.d.ts",
+                  );
+                }}
                 onChange={(value) => {
                   if (!value) {
                     debouncedSetSlideConfiguration("");
