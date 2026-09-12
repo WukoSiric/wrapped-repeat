@@ -86,7 +86,6 @@ export const StreamingHistoryProvider = ({
       .addYearOverYearAggregate()
       .build();
 
-    console.log(globalVariables);
     return globalVariables;
   }, [streamingHistory]);
 
