@@ -37,6 +37,4 @@ export type SlideResult = {
 };
 
 export type Result = Record<string, ResultValue>;
-export type ResultValue = string | number;
-
-export type GlobalVariable = Object;
+export type ResultValue = string | number | object | [];
