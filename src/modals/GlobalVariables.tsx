@@ -2,6 +2,7 @@ import { Editor } from "@monaco-editor/react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { Modal } from "./Modal";
 import { useMemo } from "react";
+import { stringifyJson } from "../helpers/jsonHelper";
 
 export const GlobalVariables = () => {
   const { streamingHistory, globalVariables } = useStreamingHistory();
@@ -10,7 +11,7 @@ export const GlobalVariables = () => {
     const globalVariablesDisplay = {
       global: globalVariables,
     };
-    return JSON.stringify(globalVariablesDisplay, null, 2);
+    return stringifyJson(globalVariablesDisplay);
   }, [streamingHistory, globalVariables]);
 
   return (

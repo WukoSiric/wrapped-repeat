@@ -7,6 +7,7 @@ import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { debounce } from "lodash";
 import { MONACO_TRANSFORM_TYPES } from "../helpers/monacoTransformTypes";
 import { Pill } from "../components/Pill";
+import { stringifyJson } from "../helpers/jsonHelper";
 
 interface SlideContentProps {
   title: string;
@@ -114,6 +115,7 @@ export const SlideContent = ({
                 options={{
                   minimap: { enabled: false },
                   automaticLayout: true,
+                  fontSize: 13,
                 }}
                 defaultValue={editorContent}
                 defaultLanguage="javascript"
@@ -144,7 +146,7 @@ export const SlideContent = ({
                   minimap: { enabled: false },
                   automaticLayout: true,
                 }}
-                value={JSON.stringify(result, null, 2)}
+                value={stringifyJson(result)}
               />
             </div>
           </div>
