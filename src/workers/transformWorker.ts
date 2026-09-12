@@ -23,7 +23,7 @@ self.onmessage = (
     let result = transform(globalVariables, streamingHistory);
 
     if (Array.isArray(result)) {
-      result = result.slice(0, 100);
+      result = result.slice(0, 50);
     }
 
     self.postMessage({
