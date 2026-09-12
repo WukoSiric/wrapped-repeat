@@ -1,14 +1,12 @@
 import { Input } from "@headlessui/react";
 import { useCallback, useMemo } from "react";
-import { Card } from "../components/Card";
 import Heading from "../components/Heading";
 import { Icon } from "../components/Icon";
-import { useModal } from "../hooks/useModal";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { useFiles } from "../hooks/useFiles";
 import { Pill } from "../components/Pill";
 import { extractYears } from "../helpers/streamingHistoryHelper";
-import { Button } from "../components/Button";
+import { Modal } from "./Modal";
 
 const UploadedFile = ({ title }: { title: string }) => {
   return (
@@ -21,8 +19,31 @@ const UploadedFile = ({ title }: { title: string }) => {
   );
 };
 
+const UploadButton = ({
+  handleFileUpload,
+}: {
+  handleFileUpload: (fileList: FileList | null) => void;
+}) => {
+  return (
+    <label className="text-primary-text flex w-fit cursor-pointer flex-col items-center gap-2">
+      <Icon
+        className="border-primary-text flex aspect-square items-center justify-center rounded-lg border-2 border-dashed p-12 transition-colors hover:bg-black"
+        name="upload"
+        size={96}
+      />
+      <p>Drag And Drop or Browse</p>
+      <Input
+        type="file"
+        accept=".json,application/json"
+        multiple
+        className="sr-only"
+        onChange={(event) => handleFileUpload(event.currentTarget.files)}
+      />
+    </label>
+  );
+};
+
 export const ImportData = () => {
-  const { closeModal } = useModal();
   const { streamingHistory, error } = useStreamingHistory();
   const { files, setFiles } = useFiles();
 
@@ -58,66 +79,24 @@ export const ImportData = () => {
     );
   }, [streamingHistory]);
 
-  const uploadButton = useMemo(
-    () => (
-      <label className="text-primary-text flex w-fit cursor-pointer flex-col items-center gap-2">
-        <Icon
-          className="border-primary-text flex aspect-square items-center justify-center rounded-lg border-2 border-dashed p-12 transition-colors hover:bg-black"
-          name="upload"
-          size={96}
-        />
-        <p>Drag And Drop or Browse</p>
-        <Input
-          type="file"
-          accept=".json,application/json"
-          multiple
-          className="sr-only"
-          onChange={(event) => handleFileUpload(event.currentTarget.files)}
-        />
-      </label>
-    ),
-    [handleFileUpload],
-  );
-
-  const heading = useMemo(() => {
-    return (
-      <div className="flex w-full flex-row justify-between">
-        <Heading variant="4XL">Import Data</Heading>
-        <Icon
-          name="close"
-          className="text-primary-text cursor-pointer"
-          onClick={() => {
-            closeModal();
-          }}
-          size={36}
-        />
-      </div>
-    );
-  }, [closeModal]);
-
   return (
-    <Card className="h-full max-h-full overflow-hidden">
-      <div className="flex h-full min-h-0 flex-col items-center gap-8 p-4">
-        {heading}
-        <div className="flex min-h-0 w-full flex-row gap-4">
-          {uploadButton}
-          <div className="flex min-h-0 w-full flex-1 flex-col gap-2">
-            {yearsSection}
-            {streamingHistory.length > 0 && (
-              <p className="text-primary-text text-md">
-                Imported {streamingHistory.length} listening records
-              </p>
-            )}
-            <div className="flex min-h-0 flex-col gap-2 overflow-y-auto">
-              {files.map((file) => (
-                <UploadedFile key={file.name} title={file.name} />
-              ))}
+    <Modal title="Import Data">
+      <UploadButton handleFileUpload={handleFileUpload} />
+      <div className="flex min-h-0 w-full flex-1 flex-col gap-2">
+        {yearsSection}
+        {streamingHistory.length > 0 && (
+          <p className="text-primary-text text-md">
+            Imported {streamingHistory.length} listening records
+          </p>
+        )}
+        <div className="flex min-h-0 flex-col gap-2 overflow-y-auto">
+          {files.map((file) => (
+            <UploadedFile key={file.name} title={file.name} />
+          ))}
 
-              {error && <p className="text-sm text-red-500">{error}</p>}
-            </div>
-          </div>
+          {error && <p className="text-sm text-red-500">{error}</p>}
         </div>
       </div>
-    </Card>
+    </Modal>
   );
 };

@@ -6,6 +6,7 @@ import { Search } from "./Search";
 import { Slide } from "../slide/Slide";
 import { useModal } from "../hooks/useModal";
 import { ImportData } from "../modals/ImportData";
+import { GlobalVariables } from "../modals/GlobalVariables";
 
 const Slides = () => {
   return (
@@ -79,6 +80,7 @@ export const Sidebar = () => {
         <Button
           className="bg-primary-global hover:bg-primary-global-hover"
           leftIcon="data_array"
+          onClick={() => openModal(<GlobalVariables />)}
         >
           Variables
         </Button>
