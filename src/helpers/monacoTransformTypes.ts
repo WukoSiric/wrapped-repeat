@@ -2,6 +2,8 @@
  * References types in Aggregate.ts and StreamingHistory.ts
  */
 
+export const MONACO_TRANSFORM_TYPES_LIB_URI = "file:///transform-types.d.ts";
+
 export const MONACO_TRANSFORM_TYPES = `
   type AggregateEntity = "title" | "artist" | "album";
 
@@ -87,3 +89,17 @@ export const MONACO_TRANSFORM_TYPES = `
 
   declare const streamingHistory: StreamingHistory[];
 `;
+
+export const registerMonacoTransformTypes = (monaco: any) => {
+  const extraLibs =
+    monaco?.languages?.typescript?.javascriptDefaults?.getExtraLibs?.() ?? {};
+
+  if (extraLibs[MONACO_TRANSFORM_TYPES_LIB_URI]) {
+    return;
+  }
+
+  monaco.languages.typescript.javascriptDefaults.addExtraLib(
+    MONACO_TRANSFORM_TYPES,
+    MONACO_TRANSFORM_TYPES_LIB_URI,
+  );
+};

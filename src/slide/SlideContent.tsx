@@ -5,7 +5,7 @@ import { Card } from "../components/Card";
 import { useEffect, useMemo, useState } from "react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { debounce } from "lodash";
-import { MONACO_TRANSFORM_TYPES } from "../helpers/monacoTransformTypes";
+import { registerMonacoTransformTypes } from "../helpers/monacoTransformTypes";
 import { Pill } from "../components/Pill";
 import { stringifyJson } from "../helpers/jsonHelper";
 
@@ -120,10 +120,7 @@ export const SlideContent = ({
                 defaultValue={editorContent}
                 defaultLanguage="javascript"
                 beforeMount={(monaco) => {
-                  monaco.languages.typescript.javascriptDefaults.addExtraLib(
-                    MONACO_TRANSFORM_TYPES,
-                    "file:///transform-types.d.ts",
-                  );
+                  registerMonacoTransformTypes(monaco);
                 }}
                 onChange={(value) => {
                   if (!value) {
