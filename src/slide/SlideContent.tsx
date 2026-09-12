@@ -27,7 +27,7 @@ export const SlideContent = ({
 
     try {
       return new Function(
-        "globalVariables",
+        "global",
         "streamingHistory",
         `
         "use strict";
@@ -49,8 +49,8 @@ export const SlideContent = ({
   }, [slideConfiguration, globalVariables, streamingHistory]);
 
   return (
-    <Card>
-      <div className="flex max-h-full flex-col gap-2">
+    <Card className="flex h-full min-h-0 flex-col">
+      <div className="flex min-h-0 flex-1 flex-col gap-2">
         <Heading variant="4XL">{title}</Heading>
         <div className="flex flex-col">
           <Heading variant="XL">Description</Heading>
@@ -62,15 +62,16 @@ export const SlideContent = ({
         <Heading className="w-full" variant="XL">
           Transformation
         </Heading>
-        <div className="flex flex-1 flex-col gap-0.5">
-          <div className="grid grid-cols-2 gap-1">
-            <div className="col-span-1 flex h-full flex-col">
+        <div className="flex min-h-0 flex-1 flex-col gap-0.5">
+          <div className="flex min-h-0 flex-1 flex-row gap-1">
+            <div className="col-span-1 flex min-h-0 w-full flex-1 flex-col">
               <Heading variant="L">Input</Heading>
               <Editor
                 theme="vs-dark"
-                className="outline-tertiary-highlight bg-primary-surface h-40 rounded-l p-2"
+                className="outline-tertiary-highlight bg-primary-surface h-full rounded-l p-2"
                 options={{
                   minimap: { enabled: false },
+                  automaticLayout: true,
                 }}
                 defaultValue={editorContent}
                 defaultLanguage="javascript"
@@ -82,15 +83,16 @@ export const SlideContent = ({
                 }}
               />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 flex min-h-0 w-full flex-1 flex-col">
               <Heading variant="L">Result</Heading>
               <Editor
                 theme="vs-dark"
-                className="outline-tertiary-highlight bg-primary-surface h-40 rounded-l p-2"
+                className="outline-tertiary-highlight bg-primary-surface h-full rounded-l p-2"
                 defaultLanguage="javascript"
                 options={{
                   readOnly: true,
                   minimap: { enabled: false },
+                  automaticLayout: true,
                 }}
                 value={result}
               />
