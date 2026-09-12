@@ -53,6 +53,19 @@ is a list of rows such as:
 ];
 ```
 
+## Deployment
+
+This repository includes a GitHub Actions workflow for deploying the Vite app to GitHub Pages on pushes to `main`.
+
+After pushing the repo, enable GitHub Pages in the repository settings:
+
+- GitHub → Settings → Pages
+- Set Source to `GitHub Actions`
+
+The site will be published at:
+
+- https://wukosiric.github.io/wrapped-repeat/
+
 ## Development
 
 Install dependencies:
