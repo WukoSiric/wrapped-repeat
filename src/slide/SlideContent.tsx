@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { debounce } from "lodash";
 import { MONACO_TRANSFORM_TYPES } from "../helpers/monacoTransformTypes";
+import { Pill } from "../components/Pill";
 
 interface SlideContentProps {
   title: string;
@@ -21,7 +22,7 @@ export const SlideContent = ({
   const [slideConfiguration, setSlideConfiguration] = useState("");
 
   const { globalVariables, streamingHistory } = useStreamingHistory();
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState({});
 
   const debouncedSetSlideConfiguration = useMemo(
     () =>
@@ -73,9 +74,25 @@ export const SlideContent = ({
     };
   }, [slideConfiguration, globalVariables, streamingHistory]);
 
+  const columnsToShowcase = useMemo(() => {
+    if (!Array.isArray(result)) {
+      return;
+    }
+
+    if (!result?.[0]) {
+      return;
+    }
+
+    const columns = Object.keys(result[0]);
+
+    return columns.map((columnName) => {
+      return <Pill className="py-0">{columnName}</Pill>;
+    });
+  }, [result]);
+
   return (
     <Card className="flex h-full min-h-0 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-2">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
         <Heading variant="4XL">{title}</Heading>
         <div className="flex flex-col">
           <Heading variant="XL">Description</Heading>
@@ -127,13 +144,19 @@ export const SlideContent = ({
                   minimap: { enabled: false },
                   automaticLayout: true,
                 }}
-                value={result}
+                value={JSON.stringify(result, null, 2)}
               />
             </div>
           </div>
         </div>
-
-        <Heading variant="XL">Columns to showcase: </Heading>
+        <div className="flow-row flex w-full min-w-0 gap-2">
+          <Heading className="min-w-fit" variant="XL">
+            Columns to showcase:
+          </Heading>
+          <div className="flex min-w-0 flex-row gap-2 overflow-scroll">
+            {columnsToShowcase}
+          </div>
+        </div>
       </div>
     </Card>
   );

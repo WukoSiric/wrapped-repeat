@@ -23,9 +23,9 @@ self.onmessage = (
     const result = transform(globalVariables, streamingHistory);
 
     self.postMessage({
-      result: JSON.stringify(result, null, 2),
+      result,
     });
   } catch {
-    self.postMessage({ result: "" });
+    self.postMessage({});
   }
 };
