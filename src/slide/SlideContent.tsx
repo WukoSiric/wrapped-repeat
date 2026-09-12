@@ -153,7 +153,7 @@ export const SlideContent = ({
           <Heading className="min-w-fit" variant="XL">
             Columns to showcase:
           </Heading>
-          <div className="flex min-w-0 flex-row gap-2 overflow-scroll">
+          <div className="flex flex-row flex-wrap gap-2">
             {columnsToShowcase}
           </div>
         </div>
