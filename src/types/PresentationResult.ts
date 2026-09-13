@@ -1,10 +1,11 @@
-import type { SlideType } from "./PresentationConfiguration";
+import type { SlideId, SlideType } from "./PresentationConfiguration";
 // TODO: Think more about presentation type
 export type PresentationResult = {
   slides: SlideResult[];
 };
 
 export type SlideResult = {
+  id: SlideId;
   type: SlideType;
   title: string;
   description: string;

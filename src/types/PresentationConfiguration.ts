@@ -1,5 +1,6 @@
 import type { TrackId } from "./StreamingHistory";
 
+export type SlideId = string;
 export type PresentationConfiguration = {
   id: string;
   slides: SlideConfiguration[];
@@ -16,7 +17,7 @@ export const SlideType = {
 export type SlideType = (typeof SlideType)[keyof typeof SlideType];
 
 export type SlideConfiguration = {
-  id: string;
+  id: SlideId;
   type: SlideType;
   title: string;
   description: string;
