@@ -1,5 +1,9 @@
+import type { TrackId } from "./StreamingHistory";
+
 export type PresentationConfiguration = {
+  id: string;
   slides: SlideConfiguration[];
+  excludedTracks: TrackId[];
 };
 
 export const SlideType = {
@@ -12,6 +16,7 @@ export const SlideType = {
 export type SlideType = (typeof SlideType)[keyof typeof SlideType];
 
 export type SlideConfiguration = {
+  id: string;
   type: SlideType;
   title: string;
   description: string;
@@ -21,20 +26,10 @@ export type SlideConfiguration = {
 export type AwardSlideConfiguration = SlideConfiguration & {
   type: Omit<SlideType, typeof SlideType.transition>;
   code: string;
+  manualOverrides: number[];
   columnsToPresent: string[];
 };
 
-export type PresentationResult = {
-  slides: SlideResult[];
+export type TransitionSlideConfiguration = SlideConfiguration & {
+  messages: string[];
 };
-
-export type SlideResult = {
-  type: "award" | "transition" | "custom";
-  title: string;
-  description: string;
-  columnsToPresent?: string[];
-  results: Result[];
-};
-
-export type Result = Record<string, ResultValue>;
-export type ResultValue = string | number | object | [];
