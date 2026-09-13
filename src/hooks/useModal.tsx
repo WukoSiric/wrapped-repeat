@@ -77,7 +77,14 @@ export const ModalPortal = () => {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex h-screen min-w-36 items-center justify-center overflow-hidden px-44 py-12 backdrop-blur-lg 2xl:px-81">
+    <div
+      className="fixed inset-0 z-50 flex h-screen min-w-36 items-center justify-center overflow-hidden px-44 py-12 backdrop-blur-lg 2xl:px-81"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) {
+          closeModal();
+        }
+      }}
+    >
       {modal}
     </div>,
     modalRoot,
