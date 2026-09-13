@@ -13,23 +13,23 @@
     gap: 1rem;
 }
 
-.slideContent .header { 
+.slideContent > .header { 
     grid-area: header;
 }
 
-.slideContent .description { 
+.slideContent > .description { 
     grid-area: description;
 }
 
-.slideContent .input { 
+.slideContent > .input { 
     grid-area: input; 
 }
 
-.slideContent .result { 
+.slideContent > .result { 
     grid-area: result;
 }
 
-.slideContent .columns { 
+.slideContent > .columns { 
     grid-area: columns;
 }
 
