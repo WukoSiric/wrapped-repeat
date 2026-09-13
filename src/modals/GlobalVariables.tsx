@@ -5,6 +5,7 @@ import { openJsonInNewTab } from "../helpers/jsonHelper";
 import Heading from "../components/Heading";
 import { Button } from "../components/Button";
 import ReactJson from "@microlink/react-json-view";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 export const GlobalVariables = () => {
   const { streamingHistory, globalVariables, globalVariablesDisplay } =
@@ -50,7 +51,9 @@ export const GlobalVariables = () => {
                 backgroundColor: "var(--color-primary-surface)",
               }}
             />
-          ) : null}
+          ) : (
+            <LoadingSpinner />
+          )}
         </div>
       </div>
       <div className="flex w-full flex-col gap-1">
@@ -77,7 +80,9 @@ export const GlobalVariables = () => {
                 backgroundColor: "var(--color-primary-surface)",
               }}
             />
-          ) : null}
+          ) : (
+            <LoadingSpinner />
+          )}
         </div>
       </div>
     </Modal>

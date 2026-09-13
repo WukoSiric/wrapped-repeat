@@ -13,4 +13,5 @@ export type StreamingHistoryRequest = MessageEvent<{ files: File[] }>;
 
 export type StreamingHistoryResponse = {
   streamingHistory: StreamingHistory[];
+  years: number[];
 };

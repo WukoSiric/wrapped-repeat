@@ -2,7 +2,10 @@ import type {
   StreamingHistoryRequest,
   StreamingHistoryResponse,
 } from "../types/WorkerMessage";
-import { importStreamingHistory } from "../helpers/streamingHistoryHelper";
+import {
+  extractYears,
+  importStreamingHistory,
+} from "../helpers/streamingHistoryHelper";
 import type { StreamingHistoryJson } from "../types/StreamingHistory";
 
 /*
@@ -24,8 +27,11 @@ self.onmessage = async (event: StreamingHistoryRequest) => {
       }),
     );
 
+    const years = extractYears(parsedHistory.flat());
+
     const response: StreamingHistoryResponse = {
       streamingHistory: parsedHistory.flat(),
+      years: years,
     };
 
     self.postMessage(response);

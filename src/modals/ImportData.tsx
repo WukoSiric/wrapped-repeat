@@ -5,8 +5,8 @@ import { Icon } from "../components/Icon";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { useFiles } from "../hooks/useFiles";
 import { Pill } from "../components/Pill";
-import { extractYears } from "../helpers/streamingHistoryHelper";
 import { Modal } from "./Modal";
+import { LoadingSpinner } from "../components/LoadingSpinner";
 
 const UploadedFile = ({ title }: { title: string }) => {
   return (
@@ -44,7 +44,7 @@ const UploadButton = ({
 };
 
 export const ImportData = () => {
-  const { streamingHistory } = useStreamingHistory();
+  const { streamingHistory, years } = useStreamingHistory();
   const { files, setFiles } = useFiles();
 
   const handleFileUpload = useCallback(
@@ -58,8 +58,6 @@ export const ImportData = () => {
   );
 
   const yearsSection = useMemo(() => {
-    const years = extractYears(streamingHistory);
-
     return (
       <div className="flex flex-row gap-2">
         <Heading variant="XL">Years: </Heading>

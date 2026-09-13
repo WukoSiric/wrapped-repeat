@@ -22,6 +22,7 @@ type StreamingHistoryContextValue = {
   globalVariables: GlobalVariableBuilderResult;
   globalVariablesDisplay: GlobalVariableBuilderResult;
   setStreamingHistory: Dispatch<SetStateAction<StreamingHistory[]>>;
+  years: number[];
 };
 
 const StreamingHistoryContext =
@@ -36,6 +37,7 @@ export const StreamingHistoryProvider = ({
     [],
   );
 
+  const [years, setYears] = useState<number[]>([]);
   const { files } = useFiles();
 
   // Import and parse files to StreamingHistory[] in streamingHistoryWorker.ts
@@ -52,6 +54,7 @@ export const StreamingHistoryProvider = ({
 
     worker.onmessage = (event: MessageEvent<StreamingHistoryResponse>) => {
       setStreamingHistory(event.data.streamingHistory);
+      setYears(event.data.years);
       worker.terminate();
     };
 
@@ -92,8 +95,9 @@ export const StreamingHistoryProvider = ({
       globalVariables,
       globalVariablesDisplay,
       setStreamingHistory,
+      years,
     }),
-    [globalVariables, globalVariablesDisplay, streamingHistory],
+    [globalVariables, globalVariablesDisplay, streamingHistory, years],
   );
 
   return (
