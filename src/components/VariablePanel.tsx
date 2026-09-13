@@ -35,8 +35,10 @@ export const VariablePanel = () => {
   }, [globalVariables, streamingHistory]);
 
   return (
-    <div className="absolute right-8 bottom-8 z-1">
-      <Card className="bg-primary-global border-primary-global-hover flex max-h-96 w-sm flex-col gap-2 px-0 py-2 2xl:w-lg">
+    <div className="absolute right-8 bottom-4 z-1">
+      <Card
+        className={`bg-primary-global border-primary-global-hover flex max-h-96 ${collapsed ? "w-fit" : "w-sm"} flex-col px-0 py-2`}
+      >
         <div
           className={`${collapsed ? "hidden" : ""} max-h-full overflow-y-scroll p-2`}
         >
