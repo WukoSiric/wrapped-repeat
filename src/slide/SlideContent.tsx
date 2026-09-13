@@ -8,6 +8,7 @@ import { debounce } from "lodash";
 import { registerMonacoTransformTypes } from "../helpers/monacoTransformTypes";
 import { Pill } from "../components/Pill";
 import { stringifyJson } from "../helpers/jsonHelper";
+import ReactJson from "@microlink/react-json-view";
 
 interface SlideContentProps {
   title: string;
@@ -134,17 +135,20 @@ export const SlideContent = ({
             </div>
             <div className="col-span-1 flex min-h-0 w-full flex-1 flex-col">
               <Heading variant="L">Result</Heading>
-              <Editor
-                theme="vs-dark"
-                className="outline-tertiary-highlight bg-primary-surface absolute h-full rounded-l p-2"
-                defaultLanguage="javascript"
-                options={{
-                  readOnly: true,
-                  minimap: { enabled: false },
-                  automaticLayout: true,
-                }}
-                value={stringifyJson(result)}
-              />
+              <div className="max-h-full overflow-y-scroll rounded-lg">
+                <ReactJson
+                  quotesOnKeys={false}
+                  indentWidth={2}
+                  src={result}
+                  theme={"eighties"}
+                  name={false}
+                  collapsed={2}
+                  displayArrayKey={false}
+                  style={{
+                    backgroundColor: "var(--color-primary-surface)",
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
