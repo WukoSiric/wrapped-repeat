@@ -7,7 +7,6 @@ import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { debounce } from "lodash";
 import { registerMonacoTransformTypes } from "../helpers/monacoTransformTypes";
 import { Pill } from "../components/Pill";
-import { stringifyJson } from "../helpers/jsonHelper";
 import ReactJson from "@microlink/react-json-view";
 
 interface SlideContentProps {
