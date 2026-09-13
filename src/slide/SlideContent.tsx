@@ -8,7 +8,7 @@ import { debounce } from "lodash";
 import { registerMonacoTransformTypes } from "../helpers/monacoTransformTypes";
 import { Pill } from "../components/Pill";
 import ReactJson from "@microlink/react-json-view";
-import type { ResultResponse } from "../types/WorkerMessage";
+import type { ResultRequest, ResultResponse } from "../types/WorkerMessage";
 
 interface SlideContentProps {
   title: string;
@@ -21,7 +21,6 @@ export const SlideContent = ({
   description,
   editorContent,
 }: SlideContentProps) => {
-  // TODO: Remove when setup multiple slides
   const [slideConfiguration, setSlideConfiguration] = useState(editorContent);
 
   const { globalVariables, streamingHistory } = useStreamingHistory();
@@ -54,26 +53,26 @@ export const SlideContent = ({
       },
     );
 
-    const handleMessage = (event: ResultResponse) => {
+    worker.onmessage = (event: ResultResponse) => {
       setResult(event.data.result ?? "");
+      worker.terminate();
     };
 
-    const handleError = (event: ErrorEvent) => {
+    worker.onerror = (event: ErrorEvent) => {
       event.stopPropagation();
       setResult({ error: event.message });
+      worker.terminate();
     };
 
-    worker.addEventListener("message", handleMessage);
-    worker.addEventListener("error", handleError);
-    worker.postMessage({
+    const resultRequest: ResultRequest = {
       code: slideConfiguration,
       globalVariables,
       streamingHistory,
-    });
+    };
+
+    worker.postMessage(resultRequest);
 
     return () => {
-      worker.removeEventListener("message", handleMessage);
-      worker.removeEventListener("error", handleError);
       worker.terminate();
     };
   }, [slideConfiguration, globalVariables, streamingHistory]);

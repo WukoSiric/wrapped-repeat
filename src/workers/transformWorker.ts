@@ -1,6 +1,6 @@
 import type { ResultRequest } from "../types/WorkerMessage";
 
-self.onmessage = (event: ResultRequest) => {
+self.onmessage = (event: MessageEvent<ResultRequest>) => {
   const { code, globalVariables, streamingHistory } = event.data;
 
   try {
