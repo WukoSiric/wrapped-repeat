@@ -16,10 +16,12 @@ import {
   GlobalVariableBuilder,
   type GlobalVariableBuilderResult,
 } from "../helpers/GlobalVariableBuilder";
+import { truncateGlobalVariables } from "../helpers/globalVariableHelper";
 
 type StreamingHistoryContextValue = {
   streamingHistory: StreamingHistory[];
   globalVariables: GlobalVariableBuilderResult;
+  globalVariablesDisplay: GlobalVariableBuilderResult;
   setStreamingHistory: Dispatch<SetStateAction<StreamingHistory[]>>;
   error: string | null;
 };
@@ -89,9 +91,20 @@ export const StreamingHistoryProvider = ({
     return globalVariables;
   }, [streamingHistory]);
 
+  const globalVariablesDisplay = useMemo(
+    () => truncateGlobalVariables(globalVariables, 10),
+    [globalVariables],
+  );
+
   const value = useMemo(
-    () => ({ streamingHistory, globalVariables, setStreamingHistory, error }),
-    [error, globalVariables, streamingHistory],
+    () => ({
+      streamingHistory,
+      globalVariables,
+      globalVariablesDisplay,
+      setStreamingHistory,
+      error,
+    }),
+    [error, globalVariables, globalVariablesDisplay, streamingHistory],
   );
 
   return (

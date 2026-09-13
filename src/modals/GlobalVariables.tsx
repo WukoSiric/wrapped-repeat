@@ -1,23 +1,28 @@
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { Modal } from "./Modal";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { openJsonInNewTab } from "../helpers/jsonHelper";
-import { truncateGlobalVariables } from "../helpers/globalVariableHelper";
 import Heading from "../components/Heading";
 import { Button } from "../components/Button";
 import ReactJson from "@microlink/react-json-view";
 
 export const GlobalVariables = () => {
-  const { streamingHistory, globalVariables } = useStreamingHistory();
+  const { streamingHistory, globalVariables, globalVariablesDisplay } =
+    useStreamingHistory();
+  const [shouldRenderJson, setShouldRenderJson] = useState(false);
 
-  const globalVariablesDisplay = useMemo(() => {
-    const globalVariablesDisplay = truncateGlobalVariables(globalVariables, 10);
-    return globalVariablesDisplay;
-  }, [streamingHistory, globalVariables]);
+  // Defer JSON rendering to allow the modal to render first
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setShouldRenderJson(true);
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   const slicedStreamingHistory = useMemo(() => {
     return streamingHistory.slice(0, 50);
-  }, []);
+  }, [streamingHistory]);
 
   return (
     <Modal title="Variables">
@@ -34,16 +39,18 @@ export const GlobalVariables = () => {
           </Button>
         </div>
         <div className="max-h-full overflow-y-scroll rounded-lg">
-          <ReactJson
-            quotesOnKeys={false}
-            indentWidth={2}
-            src={globalVariablesDisplay}
-            theme={"summerfruit"}
-            name="global"
-            style={{
-              backgroundColor: "var(--color-primary-surface)",
-            }}
-          />
+          {shouldRenderJson ? (
+            <ReactJson
+              quotesOnKeys={false}
+              indentWidth={2}
+              src={globalVariablesDisplay}
+              theme={"summerfruit"}
+              name="global"
+              style={{
+                backgroundColor: "var(--color-primary-surface)",
+              }}
+            />
+          ) : null}
         </div>
       </div>
       <div className="flex w-full flex-col gap-1">
@@ -58,17 +65,19 @@ export const GlobalVariables = () => {
           </Button>
         </div>
         <div className="max-h-full overflow-y-scroll rounded-lg">
-          <ReactJson
-            quotesOnKeys={false}
-            indentWidth={2}
-            src={slicedStreamingHistory}
-            theme={"summerfruit"}
-            name="streamingHistory"
-            collapsed={1}
-            style={{
-              backgroundColor: "var(--color-primary-surface)",
-            }}
-          />
+          {shouldRenderJson ? (
+            <ReactJson
+              quotesOnKeys={false}
+              indentWidth={2}
+              src={slicedStreamingHistory}
+              theme={"summerfruit"}
+              name="streamingHistory"
+              collapsed={1}
+              style={{
+                backgroundColor: "var(--color-primary-surface)",
+              }}
+            />
+          ) : null}
         </div>
       </div>
     </Modal>
