@@ -1,0 +1,20 @@
+.appLayout { 
+  display: grid; 
+  grid-template-areas: 
+  "navbar navbar"
+  "sidebar pageContent";
+  grid-template-columns: auto 1fr;
+  grid-template-rows: min-content 1fr;
+}
+
+.sidebar { 
+  grid-area: sidebar;
+}
+
+.navbar { 
+  grid-area: navbar;
+}
+
+.pageContent { 
+  grid-area: pageContent;
+}

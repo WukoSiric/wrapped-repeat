@@ -44,7 +44,7 @@ export const Sidebar = () => {
   const { openModal } = useModal();
 
   return (
-    <div className="bg-primary-surface border-primary-surface-highlight flex max-h-full w-1/5 min-w-96 flex-col border-r">
+    <div className="sidebar bg-primary-surface border-primary-surface-highlight flex max-h-full w-1/5 min-w-96 flex-col border-r">
       {/* Variables & Import Data */}
       <div className="flex w-full flex-row justify-center gap-2 p-6">
         <Button

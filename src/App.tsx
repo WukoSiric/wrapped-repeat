@@ -1,4 +1,5 @@
 import "./App.css";
+import "./assets/css/AppLayout.css";
 import SimpleNavbar from "./components/SimpleNavbar";
 import { Sidebar } from "./components/Sidebar";
 import { SlideContent } from "./slide/SlideContent";
@@ -24,18 +25,16 @@ const App = () => {
 
 const AppLayout = () => {
   return (
-    <div className="flex h-screen w-screen flex-col">
+    <div className="appLayout h-screen w-screen">
       <SimpleNavbar />
-      <div className="flex min-h-0 flex-1 flex-row">
-        <Sidebar />
-        <div className="bg-background relative flex-1 p-16">
-          <VariablePanel />
-          <SlideContent
-            title="Track of the Year"
-            description="The best track of the year"
-            editorContent={DEFAULT_SLIDE_INPUT}
-          />
-        </div>
+      <Sidebar />
+      <div className="pageContent bg-background relative flex-1 overflow-auto p-16">
+        <VariablePanel />
+        <SlideContent
+          title="Track of the Year"
+          description="The best track of the year"
+          editorContent={DEFAULT_SLIDE_INPUT}
+        />
       </div>
     </div>
   );
