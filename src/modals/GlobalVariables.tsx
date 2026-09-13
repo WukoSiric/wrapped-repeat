@@ -1,24 +1,22 @@
-import { Editor } from "@monaco-editor/react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { Modal } from "./Modal";
 import { useMemo } from "react";
-import { openJsonInNewTab, stringifyJson } from "../helpers/jsonHelper";
+import { openJsonInNewTab } from "../helpers/jsonHelper";
 import { truncateGlobalVariables } from "../helpers/globalVariableHelper";
 import Heading from "../components/Heading";
 import { Button } from "../components/Button";
+import ReactJson from "@microlink/react-json-view";
 
 export const GlobalVariables = () => {
   const { streamingHistory, globalVariables } = useStreamingHistory();
 
   const globalVariablesDisplay = useMemo(() => {
-    const globalVariablesDisplay = {
-      global: truncateGlobalVariables(globalVariables, 10),
-    };
-    return stringifyJson(globalVariablesDisplay);
+    const globalVariablesDisplay = truncateGlobalVariables(globalVariables, 10);
+    return globalVariablesDisplay;
   }, [streamingHistory, globalVariables]);
 
   const slicedStreamingHistory = useMemo(() => {
-    return stringifyJson(streamingHistory.slice(0, 50));
+    return streamingHistory.slice(0, 50);
   }, []);
 
   return (
@@ -35,17 +33,18 @@ export const GlobalVariables = () => {
             View Full
           </Button>
         </div>
-        <Editor
-          theme="vs-dark"
-          className="outline-tertiary-highlight bg-primary-surface absolute h-full rounded-l"
-          defaultLanguage="javascript"
-          options={{
-            readOnly: true,
-            minimap: { enabled: false },
-            automaticLayout: true,
-          }}
-          value={globalVariablesDisplay}
-        />
+        <div className="max-h-full overflow-y-scroll rounded-lg">
+          <ReactJson
+            quotesOnKeys={false}
+            indentWidth={2}
+            src={globalVariablesDisplay}
+            theme={"summerfruit"}
+            name="global"
+            style={{
+              backgroundColor: "var(--color-primary-surface)",
+            }}
+          />
+        </div>
       </div>
       <div className="flex w-full flex-col gap-1">
         <div className="flex flex-row justify-between">
@@ -58,17 +57,19 @@ export const GlobalVariables = () => {
             View Full
           </Button>
         </div>
-        <Editor
-          theme="vs-dark"
-          className="outline-tertiary-highlight bg-primary-surface absolute h-full rounded-l"
-          defaultLanguage="javascript"
-          options={{
-            readOnly: true,
-            minimap: { enabled: false },
-            automaticLayout: true,
-          }}
-          value={slicedStreamingHistory}
-        />
+        <div className="max-h-full overflow-y-scroll rounded-lg">
+          <ReactJson
+            quotesOnKeys={false}
+            indentWidth={2}
+            src={slicedStreamingHistory}
+            theme={"summerfruit"}
+            name="streamingHistory"
+            collapsed={1}
+            style={{
+              backgroundColor: "var(--color-primary-surface)",
+            }}
+          />
+        </div>
       </div>
     </Modal>
   );

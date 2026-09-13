@@ -2,10 +2,9 @@ import { useMemo, useState } from "react";
 import { Card } from "./Card";
 import Heading from "./Heading";
 import { Icon } from "./Icon";
-import { Editor } from "@monaco-editor/react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
-import { stringifyJson } from "../helpers/jsonHelper";
 import { truncateGlobalVariables } from "../helpers/globalVariableHelper";
+import ReactJson from "@microlink/react-json-view";
 
 export const VariablePanel = () => {
   const [collapsed, setCollapsed] = useState(true);
@@ -23,19 +22,26 @@ export const VariablePanel = () => {
 
   return (
     <div className="absolute right-8 bottom-8 z-1">
-      <Card className="bg-primary-global flex max-h-full w-sm flex-col gap-2 px-0 py-2 2xl:w-lg">
-        <Editor
-          theme="vs-dark"
-          options={{
-            automaticLayout: true,
-            lineNumbers: "off",
-            fontSize: 12,
-            minimap: { enabled: false },
-          }}
-          className={`${collapsed ? "hidden" : ""} outline-tertiary-highlight bg-primary-global h-full min-h-72 flex-1 rounded-l p-2`}
-          value={stringifyJson(globalVariablesPreview)}
-          defaultLanguage="json"
-        />
+      <Card className="bg-primary-global flex max-h-96 w-sm flex-col gap-2 px-0 py-2 2xl:w-lg">
+        <div
+          className={`${collapsed ? "hidden" : ""} max-h-full overflow-y-scroll p-2`}
+        >
+          <ReactJson
+            src={globalVariablesPreview}
+            theme={"harmonic"}
+            name="streamingHistory"
+            collapsed={3}
+            style={{
+              backgroundColor: "var(--primary-global)",
+              // L:25 max-h-96 is 24rem
+              minHeight: "23rem",
+            }}
+            quotesOnKeys={false}
+            collapseStringsAfterLength={0}
+            showComma={false}
+            indentWidth={2}
+          />
+        </div>
         <div
           className="flex cursor-pointer flex-row justify-between p-4 select-none"
           onClick={() => setCollapsed(!collapsed)}
