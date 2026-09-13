@@ -8,7 +8,7 @@ import { debounce } from "lodash";
 import { registerMonacoTransformTypes } from "../helpers/monacoTransformTypes";
 import { Pill } from "../components/Pill";
 import ReactJson from "@microlink/react-json-view";
-import { DEFAULT_SLIDE_INPUT } from "../helpers/slideHelper";
+import type { ResultResponse } from "../types/WorkerMessage";
 
 interface SlideContentProps {
   title: string;
@@ -22,8 +22,7 @@ export const SlideContent = ({
   editorContent,
 }: SlideContentProps) => {
   // TODO: Remove when setup multiple slides
-  const [slideConfiguration, setSlideConfiguration] =
-    useState(DEFAULT_SLIDE_INPUT);
+  const [slideConfiguration, setSlideConfiguration] = useState(editorContent);
 
   const { globalVariables, streamingHistory } = useStreamingHistory();
   const [result, setResult] = useState({});
@@ -55,12 +54,13 @@ export const SlideContent = ({
       },
     );
 
-    const handleMessage = (event: MessageEvent<{ result?: string }>) => {
+    const handleMessage = (event: ResultResponse) => {
       setResult(event.data.result ?? "");
     };
 
-    const handleError = () => {
-      setResult("");
+    const handleError = (event: ErrorEvent) => {
+      event.stopPropagation();
+      setResult({ error: event.message });
     };
 
     worker.addEventListener("message", handleMessage);
@@ -124,7 +124,7 @@ export const SlideContent = ({
                   automaticLayout: true,
                   fontSize: 13,
                 }}
-                defaultValue={DEFAULT_SLIDE_INPUT}
+                defaultValue={editorContent}
                 defaultLanguage="javascript"
                 beforeMount={(monaco) => {
                   registerMonacoTransformTypes(monaco);

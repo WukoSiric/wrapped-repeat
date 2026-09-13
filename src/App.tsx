@@ -6,6 +6,7 @@ import { ModalPortal, ModalProvider } from "./hooks/useModal";
 import { StreamingHistoryProvider } from "./hooks/useStreamingHistory";
 import { FileProvider } from "./hooks/useFiles";
 import { VariablePanel } from "./components/VariablePanel";
+import { DEFAULT_SLIDE_INPUT } from "./helpers/slideHelper";
 
 const App = () => {
   return (
@@ -32,7 +33,7 @@ const AppLayout = () => {
           <SlideContent
             title="Track of the Year"
             description="The best track of the year"
-            editorContent=""
+            editorContent={DEFAULT_SLIDE_INPUT}
           />
         </div>
       </div>

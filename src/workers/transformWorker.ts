@@ -1,13 +1,6 @@
-import type { GlobalVariableBuilderResult } from "../helpers/GlobalVariableBuilder";
-import type { StreamingHistory } from "../types/StreamingHistory";
+import type { ResultRequest } from "../types/WorkerMessage";
 
-self.onmessage = (
-  event: MessageEvent<{
-    code: string;
-    globalVariables: GlobalVariableBuilderResult;
-    streamingHistory: StreamingHistory[];
-  }>,
-) => {
+self.onmessage = (event: ResultRequest) => {
   const { code, globalVariables, streamingHistory } = event.data;
 
   try {
@@ -29,7 +22,8 @@ self.onmessage = (
     self.postMessage({
       result,
     });
-  } catch {
-    self.postMessage({});
+  } catch (error: unknown) {
+    console.log(error);
+    throw error;
   }
 };
