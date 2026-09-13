@@ -44,7 +44,7 @@ export const VariablePanel = () => {
             <ReactJson
               src={globalVariablesPreview}
               theme={"harmonic"}
-              name="streamingHistory"
+              name={false}
               collapsed={3}
               style={{
                 backgroundColor: "var(--primary-global)",

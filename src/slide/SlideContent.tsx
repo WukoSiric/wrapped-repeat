@@ -8,6 +8,7 @@ import { debounce } from "lodash";
 import { registerMonacoTransformTypes } from "../helpers/monacoTransformTypes";
 import { Pill } from "../components/Pill";
 import ReactJson from "@microlink/react-json-view";
+import { DEFAULT_SLIDE_INPUT } from "../helpers/slideHelper";
 
 interface SlideContentProps {
   title: string;
@@ -20,7 +21,9 @@ export const SlideContent = ({
   description,
   editorContent,
 }: SlideContentProps) => {
-  const [slideConfiguration, setSlideConfiguration] = useState("");
+  // TODO: Remove when setup multiple slides
+  const [slideConfiguration, setSlideConfiguration] =
+    useState(DEFAULT_SLIDE_INPUT);
 
   const { globalVariables, streamingHistory } = useStreamingHistory();
   const [result, setResult] = useState({});
@@ -87,7 +90,11 @@ export const SlideContent = ({
     const columns = Object.keys(result[0]);
 
     return columns.map((columnName) => {
-      return <Pill className="py-0">{columnName}</Pill>;
+      return (
+        <Pill key={columnName} className="py-0">
+          {columnName}
+        </Pill>
+      );
     });
   }, [result]);
 
@@ -117,14 +124,13 @@ export const SlideContent = ({
                   automaticLayout: true,
                   fontSize: 13,
                 }}
-                defaultValue={editorContent}
+                defaultValue={DEFAULT_SLIDE_INPUT}
                 defaultLanguage="javascript"
                 beforeMount={(monaco) => {
                   registerMonacoTransformTypes(monaco);
                 }}
                 onChange={(value) => {
                   if (!value) {
-                    debouncedSetSlideConfiguration("");
                     return;
                   }
 

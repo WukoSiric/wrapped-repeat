@@ -72,7 +72,7 @@ export const GlobalVariables = () => {
               src={slicedStreamingHistory}
               theme={"summerfruit"}
               name="streamingHistory"
-              collapsed={1}
+              collapsed={2}
               style={{
                 backgroundColor: "var(--color-primary-surface)",
               }}
