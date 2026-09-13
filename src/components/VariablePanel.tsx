@@ -5,7 +5,7 @@ import { Icon } from "./Icon";
 import { Editor } from "@monaco-editor/react";
 import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { stringifyJson } from "../helpers/jsonHelper";
-import { cloneDeep } from "lodash";
+import { truncateGlobalVariables } from "../helpers/globalVariableHelper";
 
 export const VariablePanel = () => {
   const [collapsed, setCollapsed] = useState(true);
@@ -13,12 +13,7 @@ export const VariablePanel = () => {
   const { globalVariables, streamingHistory } = useStreamingHistory();
 
   const globalVariablesPreview = useMemo(() => {
-    const preview = cloneDeep(globalVariables);
-
-    preview.yearlyAggregate = preview.yearlyAggregate?.slice(0, 1);
-    preview.quarterlyAggregate = preview.quarterlyAggregate?.slice(0, 1);
-    preview.yearOverYearAggregate = preview.yearOverYearAggregate?.slice(0, 1);
-    preview.halfAggregate = preview.halfAggregate?.slice(0, 1);
+    const preview = truncateGlobalVariables(globalVariables, 1);
 
     return {
       global: preview,
