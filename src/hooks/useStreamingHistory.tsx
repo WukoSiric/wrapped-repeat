@@ -10,10 +10,7 @@ import {
 } from "react";
 import type { StreamingHistory } from "../types/StreamingHistory";
 import { useFiles } from "./useFiles";
-import {
-  GlobalVariableBuilder,
-  type GlobalVariableBuilderResult,
-} from "../helpers/GlobalVariableBuilder";
+import { type GlobalVariableBuilderResult } from "../helpers/GlobalVariableBuilder";
 import { truncateGlobalVariables } from "../helpers/globalVariableHelper";
 import type { StreamingHistoryResponse } from "../types/WorkerMessage";
 
@@ -37,6 +34,9 @@ export const StreamingHistoryProvider = ({
     [],
   );
 
+  const [globalVariables, setGlobalVariables] =
+    useState<GlobalVariableBuilderResult>({});
+
   const [years, setYears] = useState<number[]>([]);
   const { files } = useFiles();
 
@@ -55,6 +55,7 @@ export const StreamingHistoryProvider = ({
     worker.onmessage = (event: MessageEvent<StreamingHistoryResponse>) => {
       setStreamingHistory(event.data.streamingHistory);
       setYears(event.data.years);
+      setGlobalVariables(event.data.globalVariables);
       worker.terminate();
     };
 
@@ -68,21 +69,6 @@ export const StreamingHistoryProvider = ({
       worker.terminate();
     };
   }, [files]);
-
-  const globalVariables = useMemo(() => {
-    const globalVariableBuilder = new GlobalVariableBuilder(streamingHistory);
-
-    const globalVariables = globalVariableBuilder
-      .addYearlyAggregate()
-      .addHalfAggregate()
-      .addQuarterlyAggregate()
-      .addYearOverYearAggregate()
-      .build();
-
-    return globalVariables;
-  }, [streamingHistory]);
-
-  // const globalVariables = {};
 
   const globalVariablesDisplay = useMemo(
     () => truncateGlobalVariables(globalVariables, 10),

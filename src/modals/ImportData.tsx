@@ -6,7 +6,6 @@ import { useStreamingHistory } from "../hooks/useStreamingHistory";
 import { useFiles } from "../hooks/useFiles";
 import { Pill } from "../components/Pill";
 import { Modal } from "./Modal";
-import { LoadingSpinner } from "../components/LoadingSpinner";
 
 const UploadedFile = ({ title }: { title: string }) => {
   return (

@@ -7,6 +7,7 @@ import {
   importStreamingHistory,
 } from "../helpers/streamingHistoryHelper";
 import type { StreamingHistoryJson } from "../types/StreamingHistory";
+import { GlobalVariableBuilder } from "../helpers/GlobalVariableBuilder";
 
 /*
  * Takes in files, and parses them into StreamingHistory[]
@@ -15,6 +16,7 @@ self.onmessage = async (event: StreamingHistoryRequest) => {
   const { files } = event.data;
 
   try {
+    // Parse streamingHistoryFiles into JSON
     const parsedHistory = await Promise.all(
       files.map(async (file) => {
         const json = JSON.parse(await file.text()) as StreamingHistoryJson[];
@@ -27,11 +29,22 @@ self.onmessage = async (event: StreamingHistoryRequest) => {
       }),
     );
 
-    const years = extractYears(parsedHistory.flat());
+    //Build response
+    const streamingHistory = parsedHistory.flat();
+    const years = extractYears(streamingHistory);
+
+    const globalVariableBuilder = new GlobalVariableBuilder(streamingHistory);
+    const globalVariables = globalVariableBuilder
+      .addYearlyAggregate()
+      .addHalfAggregate()
+      .addQuarterlyAggregate()
+      .addYearOverYearAggregate()
+      .build();
 
     const response: StreamingHistoryResponse = {
-      streamingHistory: parsedHistory.flat(),
+      streamingHistory: streamingHistory,
       years: years,
+      globalVariables: globalVariables,
     };
 
     self.postMessage(response);
