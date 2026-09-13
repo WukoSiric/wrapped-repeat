@@ -36,7 +36,7 @@ export const VariablePanel = () => {
 
   return (
     <div className="absolute right-8 bottom-8 z-1">
-      <Card className="bg-primary-global flex max-h-96 w-sm flex-col gap-2 px-0 py-2 2xl:w-lg">
+      <Card className="bg-primary-global border-primary-global-hover flex max-h-96 w-sm flex-col gap-2 px-0 py-2 2xl:w-lg">
         <div
           className={`${collapsed ? "hidden" : ""} max-h-full overflow-y-scroll p-2`}
         >

@@ -7,6 +7,7 @@ import { Slide } from "../slide/Slide";
 import { useModal } from "../hooks/useModal";
 import { ImportData } from "../modals/ImportData";
 import { GlobalVariables } from "../modals/GlobalVariables";
+import { DynamicSpacer } from "./DynamicSpacer";
 
 const Slides = () => {
   return (
@@ -16,56 +17,25 @@ const Slides = () => {
         description="This is a sample slide"
         slideType="award"
       />
+      <DynamicSpacer>
+        <Button leftIcon="add">Add</Button>
+      </DynamicSpacer>
       <Slide
         title="Sample Slide"
         description="This is a sample slide"
         slideType="award"
       />
-      <Slide
-        title="Transition Slide"
-        description="Going to the next section"
-        slideType="transition"
-      />
+      <DynamicSpacer>
+        <Button leftIcon="add">Add</Button>
+      </DynamicSpacer>
       <Slide
         title="Sample Slide"
         description="This is a sample slide"
         slideType="award"
       />
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
+      <DynamicSpacer>
+        <Button leftIcon="add">Add</Button>
+      </DynamicSpacer>
     </>
   );
 };
@@ -100,7 +70,7 @@ export const Sidebar = () => {
       </div>
       <Divider />
       {/* Slides */}
-      <div className="flex max-h-full min-h-0 max-w-full flex-1 flex-col gap-2 overflow-x-hidden overflow-y-scroll p-6">
+      <div className="flex max-h-full min-h-0 max-w-full flex-1 flex-col items-center overflow-x-hidden overflow-y-scroll p-6">
         <Slides />
       </div>
     </div>
