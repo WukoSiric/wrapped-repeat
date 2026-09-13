@@ -9,21 +9,19 @@ import {
   useState,
 } from "react";
 import type { StreamingHistory } from "../types/StreamingHistory";
-import { importStreamingHistory } from "../helpers/streamingHistoryHelper";
-import type { StreamingHistoryJson } from "../types/StreamingHistory";
 import { useFiles } from "./useFiles";
 import {
   GlobalVariableBuilder,
   type GlobalVariableBuilderResult,
 } from "../helpers/GlobalVariableBuilder";
 import { truncateGlobalVariables } from "../helpers/globalVariableHelper";
+import type { StreamingHistoryResponse } from "../types/WorkerMessage";
 
 type StreamingHistoryContextValue = {
   streamingHistory: StreamingHistory[];
   globalVariables: GlobalVariableBuilderResult;
   globalVariablesDisplay: GlobalVariableBuilderResult;
   setStreamingHistory: Dispatch<SetStateAction<StreamingHistory[]>>;
-  error: string | null;
 };
 
 const StreamingHistoryContext =
@@ -38,43 +36,33 @@ export const StreamingHistoryProvider = ({
     [],
   );
 
-  const [error, setError] = useState<string | null>(null);
   const { files } = useFiles();
 
+  // Import and parse files to StreamingHistory[] in streamingHistoryWorker.ts
   useEffect(() => {
-    let cancelled = false;
+    if (!files.length) {
+      setStreamingHistory([]);
+      return;
+    }
 
-    const parseFiles = async () => {
-      try {
-        const parsedHistory = await Promise.all(
-          files.map(async (file) => {
-            const json = JSON.parse(
-              await file.text(),
-            ) as StreamingHistoryJson[];
+    const worker = new Worker(
+      new URL("../workers/streamingHistoryWorker.ts", import.meta.url),
+      { type: "module" },
+    );
 
-            if (!Array.isArray(json)) {
-              throw new Error(`${file.name} does not contain a JSON array.`);
-            }
-
-            return importStreamingHistory(json);
-          }),
-        );
-
-        if (!cancelled) {
-          setStreamingHistory(parsedHistory.flat());
-          setError(null);
-        }
-      } catch {
-        if (!cancelled) {
-          setError("One or more files could not be imported.");
-        }
-      }
+    worker.onmessage = (event: MessageEvent<StreamingHistoryResponse>) => {
+      setStreamingHistory(event.data.streamingHistory);
+      worker.terminate();
     };
 
-    void parseFiles();
+    worker.onerror = () => {
+      worker.terminate();
+    };
+
+    worker.postMessage({ files });
 
     return () => {
-      cancelled = true;
+      worker.terminate();
     };
   }, [files]);
 
@@ -91,6 +79,8 @@ export const StreamingHistoryProvider = ({
     return globalVariables;
   }, [streamingHistory]);
 
+  // const globalVariables = {};
+
   const globalVariablesDisplay = useMemo(
     () => truncateGlobalVariables(globalVariables, 10),
     [globalVariables],
@@ -102,9 +92,8 @@ export const StreamingHistoryProvider = ({
       globalVariables,
       globalVariablesDisplay,
       setStreamingHistory,
-      error,
     }),
-    [error, globalVariables, globalVariablesDisplay, streamingHistory],
+    [globalVariables, globalVariablesDisplay, streamingHistory],
   );
 
   return (

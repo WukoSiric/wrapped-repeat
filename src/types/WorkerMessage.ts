@@ -8,3 +8,9 @@ export type ResultRequest = MessageEvent<{
 }>;
 
 export type ResultResponse = MessageEvent<{ result: string }>;
+
+export type StreamingHistoryRequest = MessageEvent<{ files: File[] }>;
+
+export type StreamingHistoryResponse = {
+  streamingHistory: StreamingHistory[];
+};

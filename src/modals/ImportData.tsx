@@ -44,7 +44,7 @@ const UploadButton = ({
 };
 
 export const ImportData = () => {
-  const { streamingHistory, error } = useStreamingHistory();
+  const { streamingHistory } = useStreamingHistory();
   const { files, setFiles } = useFiles();
 
   const handleFileUpload = useCallback(
@@ -63,7 +63,7 @@ export const ImportData = () => {
     return (
       <div className="flex flex-row gap-2">
         <Heading variant="XL">Years: </Heading>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row flex-wrap gap-2">
           {years.map((year) => (
             <Pill
               key={year}
@@ -93,8 +93,6 @@ export const ImportData = () => {
           {files.map((file) => (
             <UploadedFile key={file.name} title={file.name} />
           ))}
-
-          {error && <p className="text-sm text-red-500">{error}</p>}
         </div>
       </div>
     </Modal>
