@@ -8,34 +8,26 @@ import { useModal } from "../hooks/useModal";
 import { ImportData } from "../modals/ImportData";
 import { GlobalVariables } from "../modals/GlobalVariables";
 import { DynamicSpacer } from "./DynamicSpacer";
+import { usePresentationConfiguration } from "../hooks/usePresentationConfiguration";
 
 const Slides = () => {
+  const { presentationConfiguration } = usePresentationConfiguration();
+
   return (
     <>
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <DynamicSpacer>
-        <Button leftIcon="add">Add</Button>
-      </DynamicSpacer>
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <DynamicSpacer>
-        <Button leftIcon="add">Add</Button>
-      </DynamicSpacer>
-      <Slide
-        title="Sample Slide"
-        description="This is a sample slide"
-        slideType="award"
-      />
-      <DynamicSpacer>
-        <Button leftIcon="add">Add</Button>
-      </DynamicSpacer>
+      {presentationConfiguration.slides.map((slide) => (
+        <>
+          <Slide
+            key={`${slide.id}-spacer`}
+            title={slide.title}
+            description={slide.description}
+            slideType={slide.type === "transition" ? "transition" : "award"}
+          />
+          <DynamicSpacer key={`${slide.id}-spacer`}>
+            <Button leftIcon="add">Add</Button>
+          </DynamicSpacer>
+        </>
+      ))}
     </>
   );
 };
