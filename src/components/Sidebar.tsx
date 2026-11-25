@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { Button } from "./Button";
 import { Divider } from "./Divider";
 import Heading from "./Heading";
@@ -11,20 +13,39 @@ import { DynamicSpacer } from "./DynamicSpacer";
 import { usePresentationConfiguration } from "../hooks/usePresentationConfiguration";
 
 const Slides = () => {
-  const { presentationConfiguration } = usePresentationConfiguration();
+  const { presentationConfiguration, patchConfiguration } =
+    usePresentationConfiguration();
+
+  const addSlideAfter = useCallback(
+    (slideIndex: number) => {
+      const newSlide = {
+        id: crypto.randomUUID(),
+        type: "song" as const,
+        title: "New Slide",
+        description: "Configure this slide",
+      };
+
+      const nextSlides = [...presentationConfiguration.slides];
+      nextSlides.splice(slideIndex + 1, 0, newSlide);
+      patchConfiguration("slides", nextSlides);
+    },
+    [presentationConfiguration.slides, patchConfiguration],
+  );
 
   return (
     <>
-      {presentationConfiguration.slides.map((slide) => (
+      {presentationConfiguration.slides.map((slide, slideIndex) => (
         <>
           <Slide
-            key={`${slide.id}-spacer`}
             title={slide.title}
             description={slide.description}
             slideType={slide.type === "transition" ? "transition" : "award"}
+            key={slide.id}
           />
           <DynamicSpacer key={`${slide.id}-spacer`}>
-            <Button leftIcon="add">Add</Button>
+            <Button leftIcon="add" onClick={() => addSlideAfter(slideIndex)}>
+              Add
+            </Button>
           </DynamicSpacer>
         </>
       ))}
